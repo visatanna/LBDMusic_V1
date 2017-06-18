@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="300dp"
+    android:layout_height="340dp"
+    android:layout_centerHorizontal="true"
+    android:layout_centerVertical="true"
+    android:layout_centerInParent="true"
+    >
+
+    <EditText
+        android:id="@+id/etNota"
+        android:layout_height="200dp"
+        android:layout_width="240dp"
+        android:text="@string/DigiteAqui"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"></EditText>
+
+    <Button
+        android:id="@+id/btnSalvar"
+        android:layout_height="50dp"
+        android:layout_width="130dp"
+        android:layout_below="@+id/etNota"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="53dp"
+        android:layout_marginTop="34dp"
+        android:text="@string/Salvar"
+        android:onClick ="dialogButtonClicked"
+        >
+
+    </Button>
+
+
+</RelativeLayout>
