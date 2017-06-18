@@ -16,7 +16,6 @@ import android.widget.TextView;
 
 import com.rogacheski.lbd.lbdmusic.ImageNotRegisteredException;
 import com.rogacheski.lbd.lbdmusic.R;
-import com.rogacheski.lbd.lbdmusic.entity.BandEntity;
 import com.rogacheski.lbd.lbdmusic.entity.ContatoEntity;
 
 import java.util.ArrayList;

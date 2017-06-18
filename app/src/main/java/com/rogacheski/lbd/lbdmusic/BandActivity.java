@@ -15,7 +15,6 @@ import android.widget.TextView;
 
 import com.rogacheski.lbd.lbdmusic.adapter.TabAdapterBandaView;
 import com.rogacheski.lbd.lbdmusic.controllers.BandController;
-import com.rogacheski.lbd.lbdmusic.entity.BandEntity;
 import com.rogacheski.lbd.lbdmusic.entity.TagEntity;
 
 import java.util.ArrayList;

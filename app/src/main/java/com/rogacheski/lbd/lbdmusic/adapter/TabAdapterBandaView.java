@@ -6,7 +6,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import com.rogacheski.lbd.lbdmusic.R;
-import com.rogacheski.lbd.lbdmusic.entity.BandEntity;
 import com.rogacheski.lbd.lbdmusic.fragments.BandAboutUsPage;
 import com.rogacheski.lbd.lbdmusic.fragments.BandCalendarPage;
 import com.rogacheski.lbd.lbdmusic.fragments.BandReviewsPage;

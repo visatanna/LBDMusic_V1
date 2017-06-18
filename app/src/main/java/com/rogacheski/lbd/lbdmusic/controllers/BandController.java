@@ -3,7 +3,6 @@ package com.rogacheski.lbd.lbdmusic.controllers;
 import android.content.Context;
 
 import com.rogacheski.lbd.lbdmusic.R;
-import com.rogacheski.lbd.lbdmusic.entity.BandEntity;
 import com.rogacheski.lbd.lbdmusic.entity.ContatoEntity;
 import com.rogacheski.lbd.lbdmusic.entity.TagEntity;
 

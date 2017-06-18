@@ -20,7 +20,6 @@ import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 import com.rogacheski.lbd.lbdmusic.R;
 import com.rogacheski.lbd.lbdmusic.controllers.DiaOcupadoDecorator;
-import com.rogacheski.lbd.lbdmusic.entity.BandEntity;
 import com.rogacheski.lbd.lbdmusic.entity.ConcertDayEntity;
 
 import org.json.JSONObject;
