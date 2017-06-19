@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="480dp"
+    android:background="@color/grey_900">
+
+
+    <RadioButton
+        android:id="@+id/rButtonValorFixo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="40dp"
+        android:checked="true"
+        android:text="1) Remuneração Fixa:"
+        android:textColor="@color/white" />
+
+    <RadioButton
+        android:id="@+id/rButtonValorVar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/rButtonValorFixo"
+        android:layout_below="@+id/textView24"
+        android:layout_marginTop="40dp"
+        android:checked="false"
+        android:text="2) Remuneração Variável:"
+        android:textColor="@color/white" />
+
+    <RadioButton
+        android:id="@+id/rValorACombinar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/rButtonValorVar"
+        android:layout_below="@+id/textView26"
+        android:layout_marginTop="40dp"
+        android:checked="false"
+        android:text="3) Combinar outro valor: "
+        android:textColor="@color/white" />
+
+    <TextView
+        android:id="@+id/textView23"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/rButtonValorFixo"
+        android:layout_below="@+id/rButtonValorFixo"
+        android:layout_marginStart="40dp"
+        android:text="Preço Fixo: R$ "
+        android:textColor="@color/white" />
+
+    <TextView
+        android:id="@+id/textView24"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/textView23"
+        android:layout_below="@+id/textView23"
+        android:layout_marginTop="11dp"
+        android:text="Período máximo por apresentação: "
+        android:textColor="@color/white" />
+
+    <TextView
+        android:id="@+id/textView25"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/textView24"
+        android:layout_below="@+id/rButtonValorVar"
+        android:text="Taxa fixa por cliente: R$ "
+        android:textColor="@color/white" />
+
+    <TextView
+        android:id="@+id/textView26"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/textView25"
+        android:layout_below="@+id/textView25"
+        android:layout_marginTop="11dp"
+        android:text="Período máximo de apresentação: "
+        android:textColor="@color/white" />
+
+    <Button
+        android:id="@+id/bContratar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rACombinarVar"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dp"
+        android:background="@color/blue_A700"
+        android:text="Contratar"
+        android:textColor="@color/white" />
+
+    <RadioButton
+        android:id="@+id/rACombinarFixo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/textView26"
+        android:layout_below="@+id/rValorACombinar"
+        android:text="Remuneração Fixa: "
+        android:textColor="@color/white" />
+
+    <RadioButton
+        android:id="@+id/rACombinarVar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/rACombinarFixo"
+        android:layout_below="@+id/rACombinarFixo"
+        android:text="Remineração Variável: "
+        android:textColor="@color/white" />
+
+    <TextView
+        android:id="@+id/viewValorFixo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="10000,00"
+        android:textColor="@color/blue_A700"
+        android:layout_alignBaseline="@+id/textView23"
+        android:layout_alignBottom="@+id/textView23"
+        android:layout_toEndOf="@+id/textView23" />
+
+    <TextView
+        android:id="@+id/viewValorVar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="100,00"
+        android:layout_alignBaseline="@+id/textView25"
+        android:layout_alignBottom="@+id/textView25"
+        android:layout_toEndOf="@+id/textView25"
+        android:textColor="@color/blue_A700"/>
+
+    <TextView
+        android:id="@+id/viewHorasFixo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/textView24"
+        android:layout_toEndOf="@+id/textView24"
+        android:text="5"
+        android:textColor="@color/blue_A700"/>
+
+    <TextView
+        android:id="@+id/viewHorasVar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/textView26"
+        android:layout_toEndOf="@+id/textView26"
+        android:text="5"
+        android:textColor="@color/blue_A700"/>
+
+    <EditText
+        android:id="@+id/propostaConFixo"
+        android:layout_width="90dp"
+        android:layout_height="40dp"
+        android:layout_alignBaseline="@+id/rACombinarFixo"
+        android:layout_alignBottom="@+id/rACombinarFixo"
+        android:layout_toEndOf="@+id/rACombinarFixo"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="10000,00"
+        android:textColor="@color/blue_A700"/>
+
+    <EditText
+        android:id="@+id/propostaConVar"
+        android:layout_width="90dp"
+        android:layout_height="40dp"
+        android:layout_below="@+id/propostaConFixo"
+        android:layout_toEndOf="@+id/rACombinarVar"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="100,00"
+        android:textColor="@color/blue_A700"/>
+
+</RelativeLayout>
