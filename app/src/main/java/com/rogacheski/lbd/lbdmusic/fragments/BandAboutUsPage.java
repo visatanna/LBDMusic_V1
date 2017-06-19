@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,9 +16,14 @@ import android.widget.TextView;
 
 
 import com.rogacheski.lbd.lbdmusic.ImageNotRegisteredException;
+import com.rogacheski.lbd.lbdmusic.ProfileMusicianActivity;
 import com.rogacheski.lbd.lbdmusic.R;
+import com.rogacheski.lbd.lbdmusic.entity.BandEntity;
 import com.rogacheski.lbd.lbdmusic.entity.ContatoEntity;
+import com.rogacheski.lbd.lbdmusic.singleton.PicassoSingleton;
+import com.squareup.picasso.Picasso;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -26,7 +32,7 @@ import java.util.List;
  * Created by Vinicius on 28-Apr-17.
  */
 
-public class BandAboutUsPage extends BaseFragment implements View.OnClickListener {
+public class BandAboutUsPage extends BaseFragment implements View.OnClickListener,PicassoSingleton.PicassoCallbacksInterface  {
     private List<Integer> listaTiposQueContemIcones = Arrays.asList(5,8,10);
     private ArrayList<ContatoEntity> listaIcones = new ArrayList<ContatoEntity>();
     private View view;
@@ -44,14 +50,15 @@ public class BandAboutUsPage extends BaseFragment implements View.OnClickListene
         BandEntity banda = (BandEntity)getArgument();
 
         setListaDeContatos(banda.getListaContatos());
+
         setImagemDescBanda(banda.getdImagemDescBanda());
         setDescText(banda.getsDescricaoBanda());
 
-        View iconleft = view.findViewById(R.id.IconLeft);
+        View iconLeft = view.findViewById(R.id.IconLeft);
         View iconMiddle = view.findViewById(R.id.IconMiddle);
         View iconRight = view.findViewById(R.id.IconRight);
 
-        iconleft.setOnClickListener(this);
+        iconLeft.setOnClickListener(this);
         iconMiddle.setOnClickListener(this);
         iconRight.setOnClickListener(this);
 
@@ -110,9 +117,11 @@ public class BandAboutUsPage extends BaseFragment implements View.OnClickListene
                 throw new ImageNotRegisteredException();
        }
     }
-    private void setImagemDescBanda(Drawable img){
+    private void setImagemDescBanda(String img){
         ImageView imagemDesc = (ImageView) view.findViewById(R.id.ImagemDesc);
-        imagemDesc.setImageDrawable(img);
+        PicassoSingleton picasso = PicassoSingleton.getInstance( new WeakReference<>(getContext()), new WeakReference<PicassoSingleton.PicassoCallbacksInterface>(this));
+
+        picasso.setPostPictureAsync(imagemDesc , img , getContext().getDrawable(R.drawable.logo));
         imagemDesc.setScaleType(ImageView.ScaleType.CENTER_CROP);
     }
     private void setDescText(String descText){
@@ -144,5 +153,16 @@ public class BandAboutUsPage extends BaseFragment implements View.OnClickListene
                 break;
         }
 
+    }
+
+
+    @Override
+    public void onPicassoSuccessCallback() {
+
+    }
+
+    @Override
+    public void onPicassoErrorCallback() {
+        Log.e("TAG", "error");
     }
 }

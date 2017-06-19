@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import com.rogacheski.lbd.lbdmusic.R;
+import com.rogacheski.lbd.lbdmusic.entity.BandEntity;
 import com.rogacheski.lbd.lbdmusic.fragments.BandAboutUsPage;
 import com.rogacheski.lbd.lbdmusic.fragments.BandCalendarPage;
 import com.rogacheski.lbd.lbdmusic.fragments.BandReviewsPage;
@@ -19,11 +20,13 @@ public class TabAdapterBandaView  extends FragmentPagerAdapter{
 
     Context context;
     BandEntity banda;
+    int idUser;
 
-    public TabAdapterBandaView(FragmentManager fm, Context context, BandEntity banda){
+    public TabAdapterBandaView(FragmentManager fm, Context context, BandEntity banda ,int idUser ){
         super(fm);
         this.context = context;
         this.banda = banda;
+        this.idUser = idUser;
     }
 
     @Override
@@ -34,14 +37,17 @@ public class TabAdapterBandaView  extends FragmentPagerAdapter{
             case 0:
                 BandAboutUsPage fragmentoAboutUs = new BandAboutUsPage();
                 fragmentoAboutUs.setArgument(banda);
+                fragmentoAboutUs.setIdUser(idUser);
                 return fragmentoAboutUs;
             case 1:
                 BandCalendarPage fragmentoCalendar = new BandCalendarPage();
                 fragmentoCalendar.setArgument(banda);
+                fragmentoCalendar.setIdUser(idUser);
                 return fragmentoCalendar;
             case 2:
                 BandReviewsPage fragmentoReviews = new BandReviewsPage();
                 fragmentoReviews.setArgument(banda);
+                fragmentoReviews.setIdUser(idUser);
                 return fragmentoReviews;
             default:
                 return null;

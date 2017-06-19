@@ -11,6 +11,16 @@ public class ReviewsEntity {
     String description;
     Date dData_Review;
     String sEvaluators_Name;
+    String sEvaluatorsImage;
+
+    public String getsEvaluatorsImage() {
+        return sEvaluatorsImage;
+    }
+
+    public void setsEvaluatorsImage(String sEvaluatorsImage) {
+        this.sEvaluatorsImage = sEvaluatorsImage;
+    }
+
 
     public int getiGrade() {
         return iGrade;

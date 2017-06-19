@@ -121,4 +121,17 @@ public class BandEntity implements Serializable{
     public void setAverageRating(double averageRating) {
         this.averageRating = averageRating;
     }
+
+    /** nMembers - numero de membros*/
+    private int nMembers;
+    public int getnMembers() {
+        return nMembers;
+    }
+
+    public void setnMembers(int nMembers) {
+        this.nMembers = nMembers;
+    }
+
+
+
 }
