@@ -73,7 +73,7 @@ public class ProfileMusicianActivity extends baseActivity
         mUsernameEdit = (TextView)header.findViewById(R.id.username);
         mUserPicture = (ImageView)header.findViewById(R.id.drawer_profilePicture);
 
-              if(!CheckUserLogado()) {
+        if(!CheckUserLogado()) {
             TransitionRight(LoginActivity.class);
         } else {
             if(!session.gettype().equals("musician")) {
@@ -158,11 +158,11 @@ public class ProfileMusicianActivity extends baseActivity
         int idBanda = Integer.parseInt(getIntent().getExtras().getString("id"));
         int idSession = Integer.parseInt(this.session.getid());
 
-        isBandaDaTela = idBanda == idSession;
+        isBandaDaTela = idBanda == idSession ? true : false;
 
         //seta as tags particulares da banda x
-
-        banda = ControllerBanda.getBandaWithId(idBanda);
+        BandEntity banda = new BandEntity();
+        ControllerBanda.carregaBanda(idBanda , banda);
 
         setBandaImage(banda);
         setNomeBanda(banda.getsNomeBanda());
