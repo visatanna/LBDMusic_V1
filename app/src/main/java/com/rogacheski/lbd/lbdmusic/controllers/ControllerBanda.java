@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
+import com.rogacheski.lbd.lbdmusic.ProfileMusicianActivity;
 import com.rogacheski.lbd.lbdmusic.entity.BandEntity;
 import com.rogacheski.lbd.lbdmusic.entity.ConcertDayEntity;
 import com.rogacheski.lbd.lbdmusic.entity.ReviewsEntity;
@@ -27,10 +28,16 @@ import static java.lang.Thread.sleep;
  */
 
 public class ControllerBanda {
-    public static void carregaBanda(int id , BandEntity bandaR) {
-        final BandEntity banda = bandaR;
+
+    ProfileMusicianActivity profileMusicianActivity;
+
+    public ControllerBanda(ProfileMusicianActivity profileMusicianActivity) {
+        this.profileMusicianActivity = profileMusicianActivity;
+    }
+
+    public  void carregaBanda(int id ) {
         AsyncHttpClient client = new AsyncHttpClient();
-        client.get("www.lbd.bravioseguros.com.br/musicianrest/musicianmain/"+Integer.toString(id),new JsonHttpResponseHandler() {
+        client.get("http://www.lbd.bravioseguros.com.br/musicianrest/musicianmain/"+Integer.toString(id),new JsonHttpResponseHandler() {
 
             @Override
             public void onStart() {
@@ -40,18 +47,20 @@ public class ControllerBanda {
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 // called when response HTTP status is "200 OK"
                 try {
+                    BandEntity bandaR = new BandEntity();
                     JSONObject dataJson= (JSONObject) response.get("data");
                     String id = dataJson.get("idUsuario").toString();
                     JSONObject genreJson= (JSONObject) response.get("genres");
                     JSONObject evaluatesJson= (JSONObject) response.get("evaluates");
                     JSONObject concertDaysJson = (JSONObject) response.get("concertdays");
                     if(!id.equals("false")) {
-                        banda.setIdUsuario(Integer.parseInt(id));
-                        addInformacoesBasicasBanda(banda , dataJson);
-                        addTagsBanda(banda , genreJson);
-                        addReviews(banda ,evaluatesJson);
-                        addConcertDays(banda ,concertDaysJson );
+                        bandaR.setIdUsuario(Integer.parseInt(id));
+                        addInformacoesBasicasBanda(bandaR , dataJson);
+                        addTagsBanda(bandaR , genreJson);
+                        addReviews(bandaR ,evaluatesJson);
+                        addConcertDays(bandaR ,concertDaysJson );
                     }
+                    profileMusicianActivity.jbInit(bandaR);
 
                 }catch(JSONException e) {
                     Log.e("ConexaoErro", "Erro de JSON no método :onSuccess ", e);
@@ -69,7 +78,6 @@ public class ControllerBanda {
             }
 
         });
-
     }
 
     private static void addConcertDays(BandEntity banda, JSONObject concertDaysJson) {
@@ -85,7 +93,9 @@ public class ControllerBanda {
                 concertDay.setBusyDay(stf.parse(showObjectJson.get("busyDay").toString()));
                 concertDay.setId_Calendar(Integer.parseInt(showObjectJson.get("idConcertDays").toString()) );
                 concertDay.setId_User(Integer.parseInt(showObjectJson.get("idUsuario").toString()));
+                listaConcertDays.add(concertDay);
             }
+            banda.setListaConcertDays(listaConcertDays);
         }catch (JSONException e){
             Log.e("ConexaoErro", "Erro de JSON no método :addConcertDays ", e);
         } catch (java.text.ParseException e1) {
@@ -98,7 +108,7 @@ public class ControllerBanda {
             SimpleDateFormat stf = new SimpleDateFormat("yyyy-MM-dd");
             Iterator<String> iterEvaluate = evaluatesJson.keys();
             ArrayList<ReviewsEntity> listaReviews = new ArrayList<ReviewsEntity>();
-            int soma = 0;
+            float soma = 0;
             int nroReviews = 0;
             while(iterEvaluate.hasNext()) {
                 String key = iterEvaluate.next();
@@ -108,7 +118,7 @@ public class ControllerBanda {
                 review.setsEvaluators_Name(evaluateJson.get("fantasyname").toString());
                 review.setsEvaluatorsImage(evaluateJson.get("userpicture").toString());
                 review.setDescription(evaluateJson.get("description").toString());
-                review.setiGrade(Integer.parseInt(evaluateJson.get("grade").toString()));
+                review.setiGrade(Float.parseFloat(evaluateJson.get("grade").toString()));
                 soma += review.getiGrade();
 
                 review.setdData_Review(stf.parse(evaluateJson.get("datecreated").toString()));

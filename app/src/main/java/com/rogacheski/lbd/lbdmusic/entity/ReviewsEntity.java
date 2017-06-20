@@ -7,7 +7,7 @@ import java.util.Date;
  */
 
 public class ReviewsEntity {
-    int iGrade;
+    float iGrade;
     String description;
     Date dData_Review;
     String sEvaluators_Name;
@@ -22,11 +22,11 @@ public class ReviewsEntity {
     }
 
 
-    public int getiGrade() {
+    public float getiGrade() {
         return iGrade;
     }
 
-    public void setiGrade(int iGrade) {
+    public void setiGrade(float iGrade) {
         this.iGrade = iGrade;
     }
 

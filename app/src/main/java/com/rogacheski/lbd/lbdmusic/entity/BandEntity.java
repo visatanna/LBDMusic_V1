@@ -132,6 +132,13 @@ public class BandEntity implements Serializable{
         this.nMembers = nMembers;
     }
 
+    private List<ConcertDayEntity>  listaConcertDays;
 
+    public List<ConcertDayEntity> getListaConcertDays() {
+        return listaConcertDays;
+    }
 
+    public void setListaConcertDays(List<ConcertDayEntity> listaConcertDays) {
+        this.listaConcertDays = listaConcertDays;
+    }
 }

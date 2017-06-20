@@ -57,6 +57,7 @@ public class ProfileMusicianActivity extends baseActivity
         session = new Session(mContext);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setElevation(0);
         setSupportActionBar(toolbar);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -89,7 +90,11 @@ public class ProfileMusicianActivity extends baseActivity
         this.setTaskDescription(tDesk);
         getWindow().setBackgroundDrawableResource(R.color.white);
 
-        jbInit();
+        int idBanda = Integer.parseInt(getIntent().getExtras().getString("id"));
+        ControllerBanda controllerBanda= new ControllerBanda(this);
+        controllerBanda.carregaBanda(idBanda);
+
+
     }
 
     @Override
@@ -154,15 +159,15 @@ public class ProfileMusicianActivity extends baseActivity
         Log.e("TAG", "error");
     }
 
-    private void jbInit() {
+    public void jbInit(BandEntity bandaPar) {
+        banda = bandaPar;
+
         int idBanda = Integer.parseInt(getIntent().getExtras().getString("id"));
         int idSession = Integer.parseInt(this.session.getid());
 
         isBandaDaTela = idBanda == idSession ? true : false;
 
         //seta as tags particulares da banda x
-        BandEntity banda = new BandEntity();
-        ControllerBanda.carregaBanda(idBanda , banda);
 
         setBandaImage(banda);
         setNomeBanda(banda.getsNomeBanda());
@@ -170,15 +175,19 @@ public class ProfileMusicianActivity extends baseActivity
         //setando a nota média na tela
         RatingBar nota= (RatingBar)findViewById(R.id.ratingStars);
         nota.setRating((float)banda.getAverageRating());
+        try {
+            //cria gerenciador dos fragmentos (views do tab layout)
+            ViewPager viewPager = (ViewPager) findViewById(R.id.Pager);
+            PagerAdapter pagerAdapter = new TabAdapterBandaView(getSupportFragmentManager(), this, banda, idSession);
+            viewPager.setAdapter(pagerAdapter);
 
-        //cria gerenciador dos fragmentos (views do tab layout)
-        ViewPager viewPager = (ViewPager) findViewById(R.id.Pager);
-        PagerAdapter pagerAdapter = new TabAdapterBandaView(getSupportFragmentManager() , this , banda , idSession );
-        viewPager.setAdapter(pagerAdapter);
+            TabLayout barraViewsBanda = (TabLayout)findViewById(R.id.LayoutTabBandaHomePage);
 
-        TabLayout barraViewsBanda = (TabLayout)findViewById(R.id.LayoutTabBandaHomePage);
+            barraViewsBanda.setupWithViewPager(viewPager);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
 
-        barraViewsBanda.setupWithViewPager(viewPager);
     }
 
     private List<TextView> DisplayTags(List<TagEntity> listaTags) {

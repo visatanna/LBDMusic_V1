@@ -10,6 +10,7 @@ import com.rogacheski.lbd.lbdmusic.entity.BandEntity;
 import com.rogacheski.lbd.lbdmusic.fragments.BandAboutUsPage;
 import com.rogacheski.lbd.lbdmusic.fragments.BandCalendarPage;
 import com.rogacheski.lbd.lbdmusic.fragments.BandReviewsPage;
+import com.rogacheski.lbd.lbdmusic.fragments.BaseFragment;
 
 
 /**
@@ -31,27 +32,29 @@ public class TabAdapterBandaView  extends FragmentPagerAdapter{
 
     @Override
     public Fragment getItem(int position) {
-
+        BaseFragment fragment = new BaseFragment();
         switch (position) {
-
             case 0:
                 BandAboutUsPage fragmentoAboutUs = new BandAboutUsPage();
                 fragmentoAboutUs.setArgument(banda);
                 fragmentoAboutUs.setIdUser(idUser);
-                return fragmentoAboutUs;
+                fragment =  fragmentoAboutUs;
+                break;
             case 1:
                 BandCalendarPage fragmentoCalendar = new BandCalendarPage();
                 fragmentoCalendar.setArgument(banda);
                 fragmentoCalendar.setIdUser(idUser);
-                return fragmentoCalendar;
+                fragment =  fragmentoCalendar;
+                break;
             case 2:
                 BandReviewsPage fragmentoReviews = new BandReviewsPage();
                 fragmentoReviews.setArgument(banda);
                 fragmentoReviews.setIdUser(idUser);
-                return fragmentoReviews;
-            default:
-                return null;
+                fragment =  fragmentoReviews;
+                break;
+
         }
+        return fragment;
     }
     @Override
     public int getCount() {

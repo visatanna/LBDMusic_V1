@@ -39,7 +39,6 @@ import cz.msebera.android.httpclient.Header;
 public class BandCalendarPage extends BaseFragment {
     Handler handle = new Handler();
     ArrayList<ConcertDayEntity> listaDias = new ArrayList<ConcertDayEntity>();
-    ArrayList<DiaOcupadoDecorator> listaDecorator = new ArrayList<DiaOcupadoDecorator>();
     View viewCalendario;
     BandEntity banda;
     boolean isBandaTela;
@@ -57,10 +56,9 @@ public class BandCalendarPage extends BaseFragment {
         ImageView showtimeImage = (ImageView)viewCalendario.findViewById(R.id.ShowTime);
         showtimeImage.setImageDrawable(getContext().getDrawable(R.drawable.showtime));
 
-        trataDatasDaBanda();
-
         MaterialCalendarView calendario = (MaterialCalendarView)viewCalendario.findViewById(R.id.calendar_view);
 
+        trataDatasDaBanda(banda, calendario);
 
         calendario.setOnDateChangedListener(new OnDateSelectedListener() {
             @Override
@@ -74,7 +72,13 @@ public class BandCalendarPage extends BaseFragment {
     }
 
 
-    public void trataDatasDaBanda(){
+    public void trataDatasDaBanda(BandEntity banda , MaterialCalendarView calendario){
+        if(banda.getListaConcertDays() != null){
+            for(ConcertDayEntity day : banda.getListaConcertDays()) {
+                listaDias.add(day);
+                calendario.addDecorator(new DiaOcupadoDecorator(day.getBusyDay() , getResources()));
+            }
+        }
 
     }
 
