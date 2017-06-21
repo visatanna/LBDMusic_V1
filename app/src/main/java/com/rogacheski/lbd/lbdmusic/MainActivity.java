@@ -569,8 +569,7 @@ public class MainActivity extends baseActivity
         //Log.d("Info", "option: " + String.valueOf(option));
 
         DismissDialog();
-        WriteLog("Iniciando pesquisaSimples");
-
+        
         ShowCustomDialog("Searching");
         AsyncHttpClient searchRequest = new AsyncHttpClient();
         searchRequest.get("http://www.lbd.bravioseguros.com.br" + requestTerm + pesquisa, new JsonHttpResponseHandler() {
