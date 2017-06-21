@@ -83,6 +83,12 @@ public abstract class baseActivity extends AppCompatActivity {
         startActivity(intent);
         overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
     }
+    public void TransitionRightExtraId(Class nextActivity, String extraName, String extraValue) {
+        Intent intent = new Intent(mContext,nextActivity);
+        intent.putExtra(extraName,extraValue);
+        startActivity(intent);
+        overridePendingTransition(R.anim.push_right_in,R.anim.push_right_out);
+    }
 
     public void TransitionRightExtraField(Class nextActivity, String extraName, String extraValue, String extraVName, String extraVValue) {
         Intent intent = new Intent(mContext,nextActivity);

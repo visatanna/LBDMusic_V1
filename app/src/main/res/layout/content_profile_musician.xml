@@ -7,11 +7,10 @@
     android:orientation="vertical"
     android:padding="4dip"
     android:gravity="center_horizontal"
-    android:background="@color/black"
+    android:background="@color/colorBlack"
     >
     <ImageView
         android:id= "@+id/imageViewBanda"
-        android:onClick="AlterarImagemDaBanda"
         android:layout_width="fill_parent"
         android:layout_height="180dp"
         />
@@ -19,13 +18,13 @@
         android:id="@+id/ratingStars"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
-        android:layout_marginTop="35dp"
-        android:layout_marginRight="25dp"
+        android:layout_marginTop="60dp"
+        android:layout_marginRight="20dp"
         android:numStars="5"
         android:isIndicator="false"
         android:layout_alignParentEnd="true"
-        android:progressTint="@color/white"
-        android:backgroundTint="@color/black"
+        android:progressTint="@color/colorCornFlowerBlue"
+        android:backgroundTint="@color/colorBlack"
         style = "@style/foodRatingBar"
         />
     <TextView
@@ -54,10 +53,10 @@
         android:layout_width = "wrap_content"
         android:layout_below="@id/imageViewBanda"
         android:layout_centerHorizontal = "true"
-        app:tabTextColor="@color/white"
-        app:tabIndicatorColor="@color/white"
-        app:tabBackground="@color/black"
-        app:tabSelectedTextColor="@color/white"
+        app:tabTextColor="@color/colorWhite"
+        app:tabIndicatorColor="@color/colorCornFlowerBlue"
+        app:tabBackground="@color/colorBlack"
+        app:tabSelectedTextColor="@color/colorWhite"
         style="@style/Standard_Font"
         app:tabMode="fixed"
         app:tabGravity = "center"/>

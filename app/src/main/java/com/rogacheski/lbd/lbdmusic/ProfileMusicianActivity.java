@@ -5,8 +5,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -16,47 +14,36 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.JsonHttpResponseHandler;
 import com.rogacheski.lbd.lbdmusic.adapter.TabAdapterBandaView;
 import com.rogacheski.lbd.lbdmusic.base.baseActivity;
-import com.rogacheski.lbd.lbdmusic.controllers.BandController;
+import com.rogacheski.lbd.lbdmusic.controllers.ControllerBanda;
 import com.rogacheski.lbd.lbdmusic.entity.BandEntity;
 import com.rogacheski.lbd.lbdmusic.entity.TagEntity;
 import com.rogacheski.lbd.lbdmusic.session.Session;
-import com.rogacheski.lbd.lbdmusic.model.user;
 import com.rogacheski.lbd.lbdmusic.singleton.PicassoSingleton;
 
-import android.support.annotation.NonNull;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
-import butterknife.Bind;
 import butterknife.ButterKnife;
-import cz.msebera.android.httpclient.Header;
 
 public class ProfileMusicianActivity extends baseActivity
         implements NavigationView.OnNavigationItemSelectedListener , PicassoSingleton.PicassoCallbacksInterface {
 
     private TextView mUsernameEdit;
     private ImageView mUserPicture;
-
-    public user userLogado = new user();
+    BandEntity banda;
+    boolean isBandaDaTela = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +57,7 @@ public class ProfileMusicianActivity extends baseActivity
         session = new Session(mContext);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setElevation(0);
         setSupportActionBar(toolbar);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -90,9 +78,9 @@ public class ProfileMusicianActivity extends baseActivity
             TransitionRight(LoginActivity.class);
         } else {
             if(!session.gettype().equals("musician")) {
-                TransitionRight(MainActivity.class);
+                TransitionRightExtraId(MainActivity.class , "id", session.getid());
             } else {
-                loadUser();
+                //TODO CHAMA MAIN DE NOVO
             }
         }
 
@@ -102,7 +90,11 @@ public class ProfileMusicianActivity extends baseActivity
         this.setTaskDescription(tDesk);
         getWindow().setBackgroundDrawableResource(R.color.white);
 
-        jbInit();
+        int idBanda = Integer.parseInt(getIntent().getExtras().getString("id"));
+        ControllerBanda controllerBanda= new ControllerBanda(this);
+        controllerBanda.carregaBanda(idBanda);
+
+
     }
 
     @Override
@@ -157,73 +149,6 @@ public class ProfileMusicianActivity extends baseActivity
         return true;
     }
 
-    public void loadUser() {
-        WriteLog("Iniciando UserLogado");
-
-        ShowDialog();
-        AsyncHttpClient client = new AsyncHttpClient();
-        client.get("http://www.lbd.bravioseguros.com.br/userrest/email/"+session.getusename(),new JsonHttpResponseHandler() {
-
-            @Override
-            public void onStart() {
-            }
-
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                // called when response HTTP status is "200 OK"
-                try {
-                    JSONObject dataJson= (JSONObject) response.get("data");
-                    String id = dataJson.get("idUsuario").toString();
-                    String type = (String) response.get("type");
-                    String email = (String) response.get("email");
-                    WriteLog(type);
-                    if(!id.equals("false")) {
-                        DismissDialog();
-                        userLogado.setEmail(email);
-                        userLogado.setFantasyName(dataJson.get("fantasyName").toString());
-                        userLogado.setFName(dataJson.get("firstName").toString());
-                        userLogado.setLName(dataJson.get("lastName").toString());
-                        userLogado.setPicture(dataJson.get("profileImage").toString());
-                        userLogado.setType(type);
-                        session.settype(type);
-                        if(type.equals("musician")) {
-                            userLogado.setBackpicture(dataJson.get("backpicture").toString());
-                        } else {
-                            userLogado.setDocument(dataJson.get("identDocument").toString());
-                        }
-                        mUsernameEdit.setText(userLogado.getFantasyName());
-                        PicassoSingleton.getInstance(new WeakReference<>(mContext), new WeakReference<PicassoSingleton.PicassoCallbacksInterface>(ProfileMusicianActivity.this))
-                                .setProfilePictureAsync(mUserPicture, userLogado.getPicture(),getDrawable(R.drawable.ic_account_circle_white));
-                    } else {
-                        DismissDialog();
-                        session.setusename("");
-                        TransitionLeft(LoginActivity.class);
-                    }
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    DismissDialog();
-                    session.setusename("");
-                    TransitionLeft(LoginActivity.class);
-                }
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                DismissDialog();
-                WriteMessage("No Internet Connection!","long");
-                session.setusename("");
-                TransitionLeft(LoginActivity.class);
-            }
-
-            @Override
-            public void onFinish() {
-
-            }
-
-        });
-
-    }
 
     @Override
     public void onPicassoSuccessCallback() {
@@ -234,21 +159,15 @@ public class ProfileMusicianActivity extends baseActivity
         Log.e("TAG", "error");
     }
 
-    private void jbInit() {
-        //esconde barra do app
-        //ActionBar actionBar = getSupportActionBar();
-        //if(actionBar != null) {
-        //    actionBar.hide();
-        //}
+    public void jbInit(BandEntity bandaPar) {
+        banda = bandaPar;
 
+        int idBanda = Integer.parseInt(getIntent().getExtras().getString("id"));
+        int idSession = Integer.parseInt(this.session.getid());
 
-        int id_banda = 0; //TODO ainda não sei como receber o id como parâmetro
+        isBandaDaTela = idBanda == idSession ? true : false;
 
         //seta as tags particulares da banda x
-        Random r = new Random();
-
-        id_banda = r.nextInt(2);
-        BandEntity banda = BandController.buscarBandaPorId(id_banda, this);
 
         setBandaImage(banda);
         setNomeBanda(banda.getsNomeBanda());
@@ -256,15 +175,19 @@ public class ProfileMusicianActivity extends baseActivity
         //setando a nota média na tela
         RatingBar nota= (RatingBar)findViewById(R.id.ratingStars);
         nota.setRating((float)banda.getAverageRating());
+        try {
+            //cria gerenciador dos fragmentos (views do tab layout)
+            ViewPager viewPager = (ViewPager) findViewById(R.id.Pager);
+            PagerAdapter pagerAdapter = new TabAdapterBandaView(getSupportFragmentManager(), this, banda, idSession);
+            viewPager.setAdapter(pagerAdapter);
 
-        //cria gerenciador dos fragmentos (views do tab layout)
-        ViewPager viewPager = (ViewPager) findViewById(R.id.Pager);
-        PagerAdapter pagerAdapter = new TabAdapterBandaView(getSupportFragmentManager() , this , banda);
-        viewPager.setAdapter(pagerAdapter);
+            TabLayout barraViewsBanda = (TabLayout)findViewById(R.id.LayoutTabBandaHomePage);
 
-        TabLayout barraViewsBanda = (TabLayout)findViewById(R.id.LayoutTabBandaHomePage);
+            barraViewsBanda.setupWithViewPager(viewPager);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
 
-        barraViewsBanda.setupWithViewPager(viewPager);
     }
 
     private List<TextView> DisplayTags(List<TagEntity> listaTags) {
@@ -302,8 +225,9 @@ public class ProfileMusicianActivity extends baseActivity
     }
     public void setBandaImage(BandEntity banda) {
         //seta imagem de fundo da banda
+        PicassoSingleton picasso = PicassoSingleton.getInstance( new WeakReference<>(mContext), new WeakReference<PicassoSingleton.PicassoCallbacksInterface>(ProfileMusicianActivity.this));
         ImageView backgroundImageBanda = (ImageView) findViewById(R.id.imageViewBanda);
-        backgroundImageBanda.setImageDrawable(banda.getdImagemBanda());
+        picasso.setPostPictureAsync(backgroundImageBanda , banda.getdImagemBanda() , getDrawable(R.drawable.logo));
         backgroundImageBanda.setScaleType(ImageView.ScaleType.CENTER_CROP);
         //backgroundImageBanda.setImageAlpha(200);
         backgroundImageBanda.setColorFilter(R.color.green_500);

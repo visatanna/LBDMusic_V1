@@ -10,6 +10,7 @@ import com.rogacheski.lbd.lbdmusic.entity.BandEntity;
 import com.rogacheski.lbd.lbdmusic.fragments.BandAboutUsPage;
 import com.rogacheski.lbd.lbdmusic.fragments.BandCalendarPage;
 import com.rogacheski.lbd.lbdmusic.fragments.BandReviewsPage;
+import com.rogacheski.lbd.lbdmusic.fragments.BaseFragment;
 
 
 /**
@@ -20,33 +21,40 @@ public class TabAdapterBandaView  extends FragmentPagerAdapter{
 
     Context context;
     BandEntity banda;
+    int idUser;
 
-    public TabAdapterBandaView(FragmentManager fm, Context context, BandEntity banda){
+    public TabAdapterBandaView(FragmentManager fm, Context context, BandEntity banda ,int idUser ){
         super(fm);
         this.context = context;
         this.banda = banda;
+        this.idUser = idUser;
     }
 
     @Override
     public Fragment getItem(int position) {
-
+        BaseFragment fragment = new BaseFragment();
         switch (position) {
-
             case 0:
                 BandAboutUsPage fragmentoAboutUs = new BandAboutUsPage();
                 fragmentoAboutUs.setArgument(banda);
-                return fragmentoAboutUs;
+                fragmentoAboutUs.setIdUser(idUser);
+                fragment =  fragmentoAboutUs;
+                break;
             case 1:
                 BandCalendarPage fragmentoCalendar = new BandCalendarPage();
                 fragmentoCalendar.setArgument(banda);
-                return fragmentoCalendar;
+                fragmentoCalendar.setIdUser(idUser);
+                fragment =  fragmentoCalendar;
+                break;
             case 2:
                 BandReviewsPage fragmentoReviews = new BandReviewsPage();
                 fragmentoReviews.setArgument(banda);
-                return fragmentoReviews;
-            default:
-                return null;
+                fragmentoReviews.setIdUser(idUser);
+                fragment =  fragmentoReviews;
+                break;
+
         }
+        return fragment;
     }
     @Override
     public int getCount() {

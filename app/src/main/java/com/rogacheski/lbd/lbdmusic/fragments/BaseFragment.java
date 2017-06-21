@@ -8,6 +8,15 @@ import android.support.v4.app.Fragment;
 
 public class BaseFragment extends Fragment{
     Object argument;
+    int idUser;
+
+    public int getIdUser() {
+        return idUser;
+    }
+
+    public void setIdUser(int idUser) {
+        this.idUser = idUser;
+    }
 
     public void setArgument(Object argument){
         this.argument = argument;

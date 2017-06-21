@@ -7,16 +7,26 @@ import java.util.Date;
  */
 
 public class ReviewsEntity {
-    int iGrade;
+    float iGrade;
     String description;
     Date dData_Review;
     String sEvaluators_Name;
+    String sEvaluatorsImage;
 
-    public int getiGrade() {
+    public String getsEvaluatorsImage() {
+        return sEvaluatorsImage;
+    }
+
+    public void setsEvaluatorsImage(String sEvaluatorsImage) {
+        this.sEvaluatorsImage = sEvaluatorsImage;
+    }
+
+
+    public float getiGrade() {
         return iGrade;
     }
 
-    public void setiGrade(int iGrade) {
+    public void setiGrade(float iGrade) {
         this.iGrade = iGrade;
     }
 

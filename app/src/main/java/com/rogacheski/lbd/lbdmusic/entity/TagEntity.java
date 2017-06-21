@@ -13,6 +13,10 @@ public class TagEntity {
         id_tag = id;
     }
 
+    public TagEntity(String genre) {
+        this.genre = genre;
+    }
+
     public int getId_tag() {
         return id_tag;
     }
