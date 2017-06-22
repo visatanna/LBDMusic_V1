@@ -4,9 +4,13 @@ import android.util.Log;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 import com.rogacheski.lbd.lbdmusic.ProfileMusicianActivity;
+import com.rogacheski.lbd.lbdmusic.entity.AdressEntity;
 import com.rogacheski.lbd.lbdmusic.entity.BandEntity;
 import com.rogacheski.lbd.lbdmusic.entity.ConcertDayEntity;
+import com.rogacheski.lbd.lbdmusic.entity.ContatoEntity;
+import com.rogacheski.lbd.lbdmusic.entity.RetornoConcertDayEntity;
 import com.rogacheski.lbd.lbdmusic.entity.ReviewsEntity;
 import com.rogacheski.lbd.lbdmusic.entity.TagEntity;
 
@@ -18,6 +22,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
 import cz.msebera.android.httpclient.Header;
 
@@ -27,18 +33,23 @@ import static java.lang.Thread.sleep;
  * Created by vis_a on 18-Jun-17.
  */
 
-public class ControllerBanda {
+public class ControllerBanda extends Observable {
 
     ProfileMusicianActivity profileMusicianActivity;
 
     public ControllerBanda(ProfileMusicianActivity profileMusicianActivity) {
         this.profileMusicianActivity = profileMusicianActivity;
     }
+    /*
+      instanciação pra qlqr classe que não seja ProfileMusicianActivity
+     */
+    public ControllerBanda(Observer novoObserver){
+        addObserver(novoObserver);
+    }
 
     public  void carregaBanda(int id ) {
         AsyncHttpClient client = new AsyncHttpClient();
         client.get("http://www.lbd.bravioseguros.com.br/musicianrest/musicianmain/"+Integer.toString(id),new JsonHttpResponseHandler() {
-
             @Override
             public void onStart() {
             }
@@ -53,12 +64,16 @@ public class ControllerBanda {
                     JSONObject genreJson= (JSONObject) response.get("genres");
                     JSONObject evaluatesJson= (JSONObject) response.get("evaluates");
                     JSONObject concertDaysJson = (JSONObject) response.get("concertdays");
+                    JSONObject contactsJson = (JSONObject) response.get("contacts");
+                    JSONObject adressJson = (JSONObject) response.get("address");
                     if(!id.equals("false")) {
                         bandaR.setIdUsuario(Integer.parseInt(id));
                         addInformacoesBasicasBanda(bandaR , dataJson);
                         addTagsBanda(bandaR , genreJson);
                         addReviews(bandaR ,evaluatesJson);
                         addConcertDays(bandaR ,concertDaysJson );
+                        addContatos(bandaR , contactsJson);
+                        addAdress(bandaR,adressJson);
                     }
                     profileMusicianActivity.jbInit(bandaR);
 
@@ -78,6 +93,39 @@ public class ControllerBanda {
             }
 
         });
+    }
+
+    private void addAdress(BandEntity bandaR, JSONObject adressJson) {
+        try{
+            AdressEntity adress = new AdressEntity();
+            adress.setIdAdress(Integer.parseInt(adressJson.get("idAddress").toString()));
+            adress.setCity(adressJson.get("city").toString());
+            adress.setState(adressJson.get("state").toString());
+            adress.setCountry(adressJson.get("country").toString());
+            adress.setCep(adressJson.get("CEP").toString());
+            adress.setDescricao(adressJson.get("description").toString());
+            bandaR.setAdress(adress);
+        }catch(JSONException e){
+            Log.e("ConexaoErro", "Erro de JSON no método :addConcertDays ", e);
+        }
+    }
+
+    private void addContatos(BandEntity bandaR, JSONObject contactsJson) {
+        try{
+            ArrayList<ContatoEntity> listaContatos= new ArrayList<ContatoEntity>();
+            Iterator<String> iterContacts = contactsJson.keys();
+            while(iterContacts.hasNext()){
+                String key = iterContacts.next();
+                JSONObject contactObjectJson = (JSONObject)contactsJson.get(key);
+                ContatoEntity contato = new ContatoEntity();
+                contato.setDescription(contactObjectJson.get("type").toString());
+                contato.setsValue(contactObjectJson.get("value").toString());
+                listaContatos.add(contato);
+            }
+            bandaR.setListaContatos(listaContatos);
+        }catch(JSONException e){
+            Log.e("ConexaoErro", "Erro de JSON no método addAdress: ", e);
+        }
     }
 
     private static void addConcertDays(BandEntity banda, JSONObject concertDaysJson) {
@@ -193,5 +241,55 @@ public class ControllerBanda {
 
         });
         return listaConcertDays;
+    }
+    public void insertConcertDays(final ConcertDayEntity arg,String idUsuario){
+        SimpleDateFormat stf = new SimpleDateFormat("yyyy-MM-dd");
+        AsyncHttpClient client = new AsyncHttpClient();
+        RequestParams params = new RequestParams();
+        params.put("idUsuario",idUsuario);
+        params.put("busyDay",stf.format(arg.getBusyDay()));
+        client.post("http://www.lbd.bravioseguros.com.br/concertdaysrest",params,new JsonHttpResponseHandler() {
+            @Override
+            public void onStart() {
+            }
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                notifyObservers(new RetornoConcertDayEntity(arg,true ,RetornoConcertDayEntity.OPERACAO_INSERT ));
+            }
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                notifyObservers(new RetornoConcertDayEntity(arg,false ,RetornoConcertDayEntity.OPERACAO_INSERT ));
+            }
+
+            @Override
+            public void onFinish() {
+
+            }
+
+        });
+
+    }
+    public void deleteConcertDays(final ConcertDayEntity arg){
+        AsyncHttpClient client = new AsyncHttpClient();
+        client.delete("http://www.lbd.bravioseguros.com.br/concertdaysrest/"+arg.getId_Calendar() ,new JsonHttpResponseHandler() {
+            @Override
+            public void onStart() {
+            }
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                notifyObservers(new RetornoConcertDayEntity(arg,true ,RetornoConcertDayEntity.OPERACAO_DELETE ));
+            }
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                notifyObservers(new RetornoConcertDayEntity(arg,false ,RetornoConcertDayEntity.OPERACAO_DELETE ));
+            }
+
+            @Override
+            public void onFinish() {
+
+            }
+
+        });
+
     }
 }

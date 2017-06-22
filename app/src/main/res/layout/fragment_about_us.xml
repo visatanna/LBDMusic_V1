@@ -67,16 +67,64 @@
         android:layout_below="@id/ImagemDesc"
         android:textColor="@color/white"
         />
-    <TextView
-        android:id ="@+id/ContatosFinal"
+    <LinearLayout
+        android:id= "@+id/llContatosFinal"
+        android:paddingTop="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_below="@id/descricaoBanda"
+        >
+        <TextView
+        android:id ="@+id/ContatosFinal"
         android:layout_marginTop="20dp"
-        android:layout_width="match_parent"
+        android:layout_marginRight="10dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/white"
         android:textIsSelectable="true"
         android:text="@string/Outros_contatos"
+        android:paddingBottom="20dp"
         />
-
+        <TextView
+            android:id ="@+id/ContatosFinalConteudo"
+            android:layout_below="@id/descricaoBanda"
+            android:layout_toRightOf="@id/ContatosFinal"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorCornFlowerBlue"
+            android:textIsSelectable="true"
+            />
+    </LinearLayout>
+    <LinearLayout
+        android:id = "@+id/llEnderecoBanda"
+        android:paddingTop="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/llContatosFinal"
+        android:paddingBottom="25dp"
+        >
+        <TextView
+            android:id = "@+id/EnderecoBanda"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="20dp"
+            android:paddingRight="10dp"
+            android:text="@string/Endereco"
+            android:textColor= "@color/white"
+            />
+        <TextView
+            android:id = "@+id/EnderecoBandaConteudo"
+            android:layout_below="@id/ContatosFinal"
+            android:layout_toRightOf="@id/EnderecoBanda"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="20dp"
+            android:paddingRight="10dp"
+            android:textColor= "@color/colorCornFlowerBlue"
+            android:textIsSelectable="true"
+            />
+    </LinearLayout>
 </RelativeLayout>
 </ScrollView>

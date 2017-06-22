@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.rogacheski.lbd.lbdmusic.ImageNotRegisteredException;
 import com.rogacheski.lbd.lbdmusic.ProfileMusicianActivity;
 import com.rogacheski.lbd.lbdmusic.R;
+import com.rogacheski.lbd.lbdmusic.entity.AdressEntity;
 import com.rogacheski.lbd.lbdmusic.entity.BandEntity;
 import com.rogacheski.lbd.lbdmusic.entity.ContatoEntity;
 import com.rogacheski.lbd.lbdmusic.singleton.PicassoSingleton;
@@ -33,7 +34,7 @@ import java.util.List;
  */
 
 public class BandAboutUsPage extends BaseFragment implements View.OnClickListener,PicassoSingleton.PicassoCallbacksInterface  {
-    private List<Integer> listaTiposQueContemIcones = Arrays.asList(5,8,10);
+    private List<String> listaTiposQueContemIcones = Arrays.asList("facebook","soundcloud","youtube");
     private ArrayList<ContatoEntity> listaIcones = new ArrayList<ContatoEntity>();
     private View view;
 
@@ -53,6 +54,7 @@ public class BandAboutUsPage extends BaseFragment implements View.OnClickListene
 
         setImagemDescBanda(banda.getdImagemDescBanda());
         setDescText(banda.getsDescricaoBanda());
+        setEndereco(banda.getAdress());
 
         View iconLeft = view.findViewById(R.id.IconLeft);
         View iconMiddle = view.findViewById(R.id.IconMiddle);
@@ -69,8 +71,8 @@ public class BandAboutUsPage extends BaseFragment implements View.OnClickListene
         if(contatos != null) {
             for (ContatoEntity contato : contatos) {
                 try {
-                    int tipo = contato.getiTypeContact();
-                    if (listaTiposQueContemIcones.contains(contato.getiTypeContact()) && numeroDeIcones < 3) {
+                    String tipo = contato.getDescription();
+                    if (listaTiposQueContemIcones.contains(contato.getDescription().toLowerCase()) && numeroDeIcones < 3) {
                         ImageView icon = null;
                         switch (numeroDeIcones) {
                             case 0:
@@ -88,7 +90,7 @@ public class BandAboutUsPage extends BaseFragment implements View.OnClickListene
                         listaIcones.add(contato);
                         numeroDeIcones++;
                     } else {
-                        TextView contatosSemIcone = (TextView) view.findViewById(R.id.ContatosFinal);
+                        TextView contatosSemIcone = (TextView) view.findViewById(R.id.ContatosFinalConteudo);
                         contatosSemIcone.setText(contatosSemIcone.getText() + " " + contato.getDescription() + " " + contato.getsValue() + " /");
                     }
                 } catch (Exception e) {
@@ -106,13 +108,13 @@ public class BandAboutUsPage extends BaseFragment implements View.OnClickListene
             }
         }
     }
-    private int getImage(int i) throws Exception {
-       switch (i){
-           case 5:
+    private int getImage(String tipo) throws Exception {
+       switch (tipo.toLowerCase()){
+           case "youtube":
                return R.drawable.unnamed;
-           case 8:
+           case "facebook":
                return R.drawable.facebook_azul_claro_burned;
-           case 10:
+           case "soundCloud":
                return R.drawable.sc_light_blue_burned;
            default:
                 throw new ImageNotRegisteredException();
@@ -131,6 +133,14 @@ public class BandAboutUsPage extends BaseFragment implements View.OnClickListene
         if(descText != null) {
             TextView descricao = (TextView) view.findViewById(R.id.descricaoBanda);
             descricao.setText(descText);
+        }
+    }
+    private void setEndereco(AdressEntity endereco){
+        if(endereco != null){
+            TextView tvEndereco = (TextView) view.findViewById(R.id.EnderecoBandaConteudo);
+            String cidade = endereco.getCity() == null ? "" : endereco.getCity();
+            String estado = endereco.getState() == null ? "" : endereco.getState();
+            tvEndereco.setText(" "+cidade.trim() + " - " + estado.trim());
         }
     }
 

@@ -141,4 +141,14 @@ public class BandEntity implements Serializable{
     public void setListaConcertDays(List<ConcertDayEntity> listaConcertDays) {
         this.listaConcertDays = listaConcertDays;
     }
+
+    private AdressEntity adress;
+
+    public AdressEntity getAdress() {
+        return adress;
+    }
+
+    public void setAdress(AdressEntity adress) {
+        this.adress = adress;
+    }
 }

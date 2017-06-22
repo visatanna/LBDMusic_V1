@@ -28,6 +28,7 @@
             android:background="@color/CleanGray"
             android:layout_below="@id/ShowTime"
             android:layout_centerHorizontal="true"
+            android:layout_marginBottom="20dp"
             />
 </RelativeLayout>
 </ScrollView>

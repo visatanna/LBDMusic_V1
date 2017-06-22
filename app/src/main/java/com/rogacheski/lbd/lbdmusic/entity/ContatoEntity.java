@@ -13,6 +13,9 @@ public class ContatoEntity {
     String description;
     String sValue;
 
+    public ContatoEntity() {
+
+    }
     public ContatoEntity(int iTypeContact, String description, String sValue) {
         this.iTypeContact = iTypeContact;
         this.description = description;

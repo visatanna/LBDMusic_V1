@@ -57,7 +57,6 @@ public class ProfileMusicianActivity extends baseActivity
         session = new Session(mContext);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setElevation(0);
         setSupportActionBar(toolbar);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -175,19 +174,15 @@ public class ProfileMusicianActivity extends baseActivity
         //setando a nota média na tela
         RatingBar nota= (RatingBar)findViewById(R.id.ratingStars);
         nota.setRating((float)banda.getAverageRating());
-        try {
-            //cria gerenciador dos fragmentos (views do tab layout)
-            ViewPager viewPager = (ViewPager) findViewById(R.id.Pager);
-            PagerAdapter pagerAdapter = new TabAdapterBandaView(getSupportFragmentManager(), this, banda, idSession);
-            viewPager.setAdapter(pagerAdapter);
 
-            TabLayout barraViewsBanda = (TabLayout)findViewById(R.id.LayoutTabBandaHomePage);
+        //cria gerenciador dos fragmentos (views do tab layout)
+        ViewPager viewPager = (ViewPager) findViewById(R.id.Pager);
+        PagerAdapter pagerAdapter = new TabAdapterBandaView(getSupportFragmentManager(), this, banda, idSession);
+        viewPager.setAdapter(pagerAdapter);
 
-            barraViewsBanda.setupWithViewPager(viewPager);
-        }catch(Exception e){
-            e.printStackTrace();
-        }
+        TabLayout barraViewsBanda = (TabLayout)findViewById(R.id.LayoutTabBandaHomePage);
 
+        barraViewsBanda.setupWithViewPager(viewPager);
     }
 
     private List<TextView> DisplayTags(List<TagEntity> listaTags) {
