@@ -4,6 +4,10 @@ import android.app.ActivityManager;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.PagerAdapter;
@@ -224,7 +228,22 @@ public class ProfileMusicianActivity extends baseActivity
         ImageView backgroundImageBanda = (ImageView) findViewById(R.id.imageViewBanda);
         picasso.setPostPictureAsync(backgroundImageBanda , banda.getdImagemBanda() , getDrawable(R.drawable.logo));
         backgroundImageBanda.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        //backgroundImageBanda.setImageAlpha(200);
-        backgroundImageBanda.setColorFilter(R.color.green_500);
+
+
+        //ColorMatrix matrix = new ColorMatrix();
+        // 0 = gray-scale
+        // 1 = original
+        //float amount = 0.5f;
+        //matrix.setSaturation(amount);
+        //ColorMatrixColorFilter filter = new ColorMatrixColorFilter(matrix);
+        //backgroundImageBanda.setColorFilter(filter);
+
+
+        // 0 - Transparente
+        // 255 - Opaco
+        backgroundImageBanda.setImageAlpha(100);
+
+        // Filtro azul maravilhoso <3
+        //backgroundImageBanda.setColorFilter(R.color.green_500);
     }
 }

@@ -305,14 +305,15 @@
     <color name="AzulPrincipal">#2984ff</color>
 
     <color name="profileBarBackground">#3d3d3d</color>
-
     <color name="lightText">#dedede</color>
+
+    <color name="windowColor">#212121</color>
 
     <!--
     Button colors - not used, kept for record
 
-    <color name="IconLightBlue">#1f4476</color>
-    <color name="IconDarkBlue">#2881fa</color>
+    <color name="IconLightBlue">#2881fa</color>
+    <color name="IconDarkBlue">#1f4476</color>
 
     <color name="ButtonLightGray">#3d3d3d</color>
     <color name="ButtonDarkGray">#222222</color>

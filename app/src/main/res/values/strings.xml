@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">LBDMusic</string>
+    <string name="app_name">Shoutout</string>
 
     <!-- Login Activity -->
     <string name="loginActivity">LoginActivity</string>

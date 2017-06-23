@@ -48,7 +48,14 @@ public class ContractorActivity extends baseActivity
     private TextView mUsernameEdit;
     private ImageView mUserPicture;
 
-    public user userLogado;
+    // Informações de usuário atual;
+    private user userLogado;
+
+    // Corpo principal da tela
+    private RelativeLayout mainBodyRL;
+
+    // Corpo de pesquisa
+    private RelativeLayout searchRL;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,31 +68,13 @@ public class ContractorActivity extends baseActivity
         Intent intent = getIntent();
         userLogado = (user) intent.getSerializableExtra("com.rogacheski.lbd.lbdmusic.USER");
 
+        /** Ache os RelativeLayout relacionados a tela principal e a tela de pesquisa*/
+        mainBodyRL = (RelativeLayout) findViewById(R.id.bodyContractor);
+        searchRL = (RelativeLayout) findViewById(R.id.searchContractor);
+
+
         /** Set contractor's name and image*/
-
-        /** Name*/
-        TextView contractorName = (TextView) findViewById(R.id.textViewContractor);
-        String name = userLogado.getFantasyName();
-        int maxSize = 15;
-
-        // Se o nome for muito grande, corte o nome
-        // WayToLongOfAName --> WayToLongO...
-        if(name.length() > maxSize){
-            name = name.substring(0, maxSize-3);
-            name = name + "...";
-        }
-
-        contractorName.setText(name);
-
-        /** TODO Logo */
-
-        ImageView contractorLogo = (ImageView) findViewById(R.id.imageViewContractor);
-
-        String image = userLogado.getPicture();
-        if(!(image.equals("") || image.equals("null"))){
-            PicassoSingleton.getInstance(new WeakReference<>(mContext), new WeakReference<PicassoSingleton.PicassoCallbacksInterface>(ContractorActivity.this))
-                    .setProfilePictureAsync(contractorLogo, image , getDrawable(R.drawable.ic_account_circle_white));
-        }
+        loadProfileBar();
 
         ButterKnife.bind(this);
 
@@ -106,6 +95,7 @@ public class ContractorActivity extends baseActivity
         mUsernameEdit = (TextView)header.findViewById(R.id.username);
         mUserPicture = (ImageView)header.findViewById(R.id.drawer_profilePicture);
 
+        // Se o usuário for um músico e chegou nessa tela (o que não devia acontecer), mande ele de volta para o login
         if(userLogado.getType().equals("musician")) {
             TransitionRight(LoginActivity.class);
         }
@@ -113,7 +103,7 @@ public class ContractorActivity extends baseActivity
         Bitmap bm = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher_round);
         ActivityManager.TaskDescription tDesk = new ActivityManager.TaskDescription(getString(R.string.app_name),bm,getResources().getColor(R.color.colorPrimaryDark));
         this.setTaskDescription(tDesk);
-        getWindow().setBackgroundDrawableResource(R.color.white);
+        getWindow().setBackgroundDrawableResource(R.color.windowColor);
     }
 
     @Override
@@ -189,6 +179,44 @@ public class ContractorActivity extends baseActivity
     @Override
     public void onPicassoErrorCallback() {
         Log.e("TAG", "error");
+    }
+
+    private void loadProfileBar(){
+
+        /** Name */
+        TextView contractorName = (TextView) findViewById(R.id.textViewContractor);
+        String name = userLogado.getFantasyName();
+        int maxSize = 15;
+
+        // Se o nome for muito grande, corte o nome
+        // WayToLongOfAName --> WayToLongO...
+        if(name.length() > maxSize){
+            name = name.substring(0, maxSize-3);
+            name = name + "...";
+        }
+
+        contractorName.setText(name);
+
+        /** Logo */
+
+        ImageView contractorLogo = (ImageView) findViewById(R.id.imageViewContractor);
+
+        String image = userLogado.getPicture();
+        if(!(image.equals("") || image.equals("null"))){
+            PicassoSingleton.getInstance(new WeakReference<>(mContext), new WeakReference<PicassoSingleton.PicassoCallbacksInterface>(ContractorActivity.this))
+                    .setProfilePictureAsync(contractorLogo, image , getDrawable(R.drawable.ic_account_circle_white));
+        }
+    }
+
+
+    private void closeSearch(){
+        mainBodyRL.setVisibility(View.VISIBLE);
+        searchRL.setVisibility(View.INVISIBLE);
+    }
+
+    private void openSearch(){
+        mainBodyRL.setVisibility(View.INVISIBLE);
+        searchRL.setVisibility(View.VISIBLE);
     }
 
 }
