@@ -25,10 +25,7 @@ import java.util.List;
  */
 
 public class BandReviewsPage extends BaseFragment implements View.OnClickListener, PicassoSingleton.PicassoCallbacksInterface{
-    private List<Integer> listaTiposQueContemIcones = Arrays.asList(5,8,10);
-    private ArrayList<ContatoEntity> listaIcones = new ArrayList<ContatoEntity>();
     private View view;
-    private int numeroDeIcones = 0;
 
     private RecyclerView mRecyclerView;
     private LinearLayoutManager mLinearLayoutManager;
