@@ -42,7 +42,7 @@ import java.lang.ref.WeakReference;
 import butterknife.ButterKnife;
 import cz.msebera.android.httpclient.Header;
 
-public class ContractorActivity extends baseActivity
+public class SearchByNameActivity extends baseActivity
         implements NavigationView.OnNavigationItemSelectedListener , PicassoSingleton.PicassoCallbacksInterface {
 
     private TextView mUsernameEdit;
@@ -54,30 +54,16 @@ public class ContractorActivity extends baseActivity
     // Corpo principal da tela
     private RelativeLayout mainBodyRL;
 
-    // Corpo de pesquisa
-    private RelativeLayout searchRL;
-
-    /** Search variables*/
-    private boolean searchIsOpen = false;
-    private boolean searchInitialized = false;
-    private int nOptions = 3;
-    private int images[] = {R.drawable.pesquisapornome, R.drawable.pesquisaporgenero, R.drawable.pesquisaporlocal};
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_contractor);
+        setContentView(R.layout.activity_search_by_name);
 
-        mContext = ContractorActivity.this;
+        mContext = SearchByNameActivity.this;
         session = new Session(mContext);
 
         Intent intent = getIntent();
         userLogado = (user) intent.getSerializableExtra("com.rogacheski.lbd.lbdmusic.USER");
-
-        /** Ache os RelativeLayout relacionados a tela principal e a tela de pesquisa*/
-        mainBodyRL = (RelativeLayout) findViewById(R.id.bodyContractor);
-        searchRL = (RelativeLayout) findViewById(R.id.searchContractor);
-
 
         /** Set contractor's name and image*/
         loadProfileBar();
@@ -101,11 +87,6 @@ public class ContractorActivity extends baseActivity
         mUsernameEdit = (TextView)header.findViewById(R.id.username);
         mUserPicture = (ImageView)header.findViewById(R.id.drawer_profilePicture);
 
-        // Se o usuário for um músico e chegou nessa tela (o que não devia acontecer), mande ele de volta para o login
-        if(userLogado.getType().equals("musician")) {
-            TransitionRight(LoginActivity.class);
-        }
-
         Bitmap bm = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher_round);
         ActivityManager.TaskDescription tDesk = new ActivityManager.TaskDescription(getString(R.string.app_name),bm,getResources().getColor(R.color.colorPrimaryDark));
         this.setTaskDescription(tDesk);
@@ -119,16 +100,9 @@ public class ContractorActivity extends baseActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            if(searchIsOpen){
-                closeSearch();
-            } else {
-                Intent startMain = new Intent(Intent.ACTION_MAIN);
-                startMain.addCategory(Intent.CATEGORY_HOME);
-                startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(startMain);
-                //super.onBackPressed();
-            }
-
+            super.onBackPressed();
+            //TransitionLeft(MainActivity.class);
+            //super.onBackPressed();
         }
     }
 
@@ -196,7 +170,7 @@ public class ContractorActivity extends baseActivity
     private void loadProfileBar(){
 
         /** Name */
-        TextView contractorName = (TextView) findViewById(R.id.textViewContractor);
+        TextView contractorName = (TextView) findViewById(R.id.textViewSearchByName);
         String name = userLogado.getFantasyName();
         int maxSize = 15;
 
@@ -211,113 +185,12 @@ public class ContractorActivity extends baseActivity
 
         /** Logo */
 
-        ImageView contractorLogo = (ImageView) findViewById(R.id.imageViewContractor);
+        ImageView contractorLogo = (ImageView) findViewById(R.id.imageViewSearchByName);
 
         String image = userLogado.getPicture();
         if(!(image.equals("") || image.equals("null"))){
-            PicassoSingleton.getInstance(new WeakReference<>(mContext), new WeakReference<PicassoSingleton.PicassoCallbacksInterface>(ContractorActivity.this))
+            PicassoSingleton.getInstance(new WeakReference<>(mContext), new WeakReference<PicassoSingleton.PicassoCallbacksInterface>(SearchByNameActivity.this))
                     .setProfilePictureAsync(contractorLogo, image , getDrawable(R.drawable.ic_account_circle_white));
-        }
-    }
-
-
-    public void search(View view){
-        if(searchIsOpen){
-            closeSearch();
-        } else {
-            openSearch();
-        }
-    }
-
-    private void openSearch(){
-        searchIsOpen = true;
-        mainBodyRL.setVisibility(View.INVISIBLE);
-        searchRL.setVisibility(View.VISIBLE);
-        checkObjects();
-    }
-
-    private void closeSearch(){
-        mainBodyRL.setVisibility(View.VISIBLE);
-        searchRL.setVisibility(View.INVISIBLE);
-        searchIsOpen = false;
-    }
-
-
-    private void chamarPesquisa(View view){
-        ImageView atual = (ImageView) view;
-        int option = (int) atual.getTag();
-
-        if(option > 2 || option < 0){
-            return;
-        }
-
-        Intent intent = new Intent(mContext, LoginActivity.class);
-
-        if(option == 0){
-            intent = new Intent(mContext, SearchByNameActivity.class);
-        }
-        if(option == 1){
-            intent = new Intent(mContext, SearchByGenreActivity.class);
-        }
-        if(option == 2){
-            intent = new Intent(mContext, SearchByLocationActivity.class);
-        }
-
-        try{
-            intent.putExtra("com.rogacheski.lbd.lbdmusic.USER", userLogado);
-            startActivity(intent);
-            overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-
-
-    }
-
-
-    private void checkObjects(){
-        if(searchInitialized){
-            return;
-        } else {
-            // Cria as três imagens e adiciona propriedades de botão
-            for(int i=0; i<nOptions; i++){
-                ImageView option = new ImageView(mContext);
-
-                option.setImageResource(images[i]);
-                option.setTag(i);
-                RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(260, 260);
-
-                ImageView.OnClickListener listener;
-                listener = new View.OnClickListener(){
-                    @Override
-                    public void onClick(View v){
-                        chamarPesquisa(v);
-                    }
-                };
-
-                if(i == 0){
-                    lp.addRule(RelativeLayout.ALIGN_PARENT_TOP);
-                    lp.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
-                    lp.topMargin = 100;
-                    lp.leftMargin = 50;
-                }
-                if(i == 1){
-                    lp.addRule(RelativeLayout.ALIGN_PARENT_TOP);
-                    lp.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
-                    lp.topMargin = 100;
-                    lp.rightMargin = 50;
-                }
-                if(i == 2){
-                    lp.addRule(RelativeLayout.ALIGN_PARENT_TOP);
-                    lp.addRule(RelativeLayout.CENTER_HORIZONTAL);
-                    lp.topMargin = 350;
-                }
-
-                option.setOnClickListener(listener);
-
-                searchRL.addView(option, lp);
-            }
-            searchInitialized = true;
         }
     }
 }

@@ -21,7 +21,7 @@
         android:layout_marginTop="60dp"
         android:layout_marginRight="20dp"
         android:numStars="5"
-        android:isIndicator="false"
+        android:isIndicator="true"
         android:layout_alignParentEnd="true"
         android:progressTint="@color/colorCornFlowerBlue"
         android:backgroundTint="@color/colorBlack"

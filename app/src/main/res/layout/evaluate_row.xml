@@ -57,7 +57,7 @@
             android:layout_width="wrap_content"
             android:layout_marginEnd="16dp"
             android:numStars="5"
-            android:isIndicator="false"
+            android:isIndicator="true"
             android:layout_gravity="end"
             android:progressTint="@color/black"
             android:backgroundTint="@color/white"

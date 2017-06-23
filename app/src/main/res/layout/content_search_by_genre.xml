@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/search_by_genre"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/Background"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.rogacheski.lbd.lbdmusic.SearchByGenreActivity"
+    tools:showIn="@layout/app_bar_search_by_genre">
+
+    <RelativeLayout
+        android:id="@+id/profileBarSearchByGenre"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/profileBarH"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:background="@color/profileBarBackground"
+        android:onClick="chamarProfile">
+
+        <ImageView
+            android:id="@+id/imageViewSearchByGenre"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/ic_account_circle_white"/>
+
+        <TextView
+            android:id="@+id/textViewSearchByGenre"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_corner"
+            android:fontFamily="sans-serif"
+            android:text="@string/Placeholder"
+            android:textColor="@color/lightText"
+            android:textSize="@dimen/profileContractorTextSize"
+            android:textStyle="bold"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@+id/imageViewSearchByGenre"
+            android:layout_marginStart="25dp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/profileBarSearchByGenre"
+        android:layout_alignParentStart="true">
+
+    </RelativeLayout>
+
+</RelativeLayout>
