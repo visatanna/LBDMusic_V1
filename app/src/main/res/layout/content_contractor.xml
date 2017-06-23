@@ -5,7 +5,7 @@
     android:id="@+id/contractor"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/BackGround"
+    android:background="@color/Background"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.rogacheski.lbd.lbdmusic.MainActivity"
     tools:showIn="@layout/app_bar_contractor">
