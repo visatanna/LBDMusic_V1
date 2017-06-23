@@ -55,11 +55,37 @@ public class ContractorActivity extends baseActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contractor);
 
+        mContext = ContractorActivity.this;
+        session = new Session(mContext);
+
         Intent intent = getIntent();
         userLogado = (user) intent.getSerializableExtra("com.rogacheski.lbd.lbdmusic.USER");
 
-        mContext = ContractorActivity.this;
-        session = new Session(mContext);
+        /** Set contractor's name and image*/
+
+        /** Name*/
+        TextView contractorName = (TextView) findViewById(R.id.textViewContractor);
+        String name = userLogado.getFantasyName();
+        int maxSize = 15;
+
+        // Se o nome for muito grande, corte o nome
+        // WayToLongOfAName --> WayToLongO...
+        if(name.length() > maxSize){
+            name = name.substring(0, maxSize-3);
+            name = name + "...";
+        }
+
+        contractorName.setText(name);
+
+        /** TODO Logo */
+
+        ImageView contractorLogo = (ImageView) findViewById(R.id.imageViewContractor);
+
+        String image = userLogado.getPicture();
+        if(!(image.equals("") || image.equals("null"))){
+            PicassoSingleton.getInstance(new WeakReference<>(mContext), new WeakReference<PicassoSingleton.PicassoCallbacksInterface>(ContractorActivity.this))
+                    .setProfilePictureAsync(contractorLogo, image , getDrawable(R.drawable.ic_account_circle_white));
+        }
 
         ButterKnife.bind(this);
 
@@ -133,11 +159,7 @@ public class ContractorActivity extends baseActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_profile) {
-            if(userLogado.getType() == "Musician") {
-
-            } else {
-                TransitionRight(ProfileContractorActivity.class);
-            }
+            callProfile();
         } else if (id == R.id.nav_logout) {
             session.setusename("");
             TransitionLeft(LoginActivity.class);
@@ -146,6 +168,18 @@ public class ContractorActivity extends baseActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public void callProfile(){
+        if(userLogado.getType() == "Musician") {
+
+        } else {
+            TransitionRight(ProfileContractorActivity.class);
+        }
+    }
+
+    public void chamarProfile(View view){
+        callProfile();
     }
 
     @Override

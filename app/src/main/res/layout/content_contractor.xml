@@ -11,6 +11,76 @@
     tools:showIn="@layout/app_bar_contractor">
 
     <RelativeLayout
+        android:id="@+id/profileBarContractor"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/profileBarH"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:background="@color/profileBarBackground"
+        android:onClick="chamarProfile">
+
+        <ImageView
+            android:id="@+id/imageViewContractor"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/ic_account_circle_white"/>
+
+        <TextView
+            android:id="@+id/textViewContractor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_corner"
+            android:fontFamily="sans-serif"
+
+            android:text="@string/Placeholder"
+            android:textColor="@color/lightText"
+            android:textSize="@dimen/profileContractorTextSize"
+            android:textStyle="bold"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@+id/imageViewContractor"
+            android:layout_marginStart="25dp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/searchContractor"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/barraInferiorContractor"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/profileBarContractor">
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/bodyContractor"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/profileBarContractor"
+        android:layout_above="@+id/barraInferiorContractor">
+
+        <ImageView
+            android:id="@+id/MeusLocaisButton"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/buttonSizeH"
+            app:srcCompat="@drawable/meulocaisbutton"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="50dp" />
+
+        <ImageView
+            android:id="@+id/MeusContratosButton"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/buttonSizeH"
+            app:srcCompat="@drawable/meucontratosbutton"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="180dp" />
+    </RelativeLayout>
+
+    <RelativeLayout
         android:id="@+id/barraInferiorContractor"
         android:layout_width="match_parent"
         android:layout_height="@dimen/BottonHeight"
@@ -30,14 +100,5 @@
             app:srcCompat="@drawable/lupa" />
 
     </RelativeLayout>
-
-    <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="134dp"
-        android:text="Deu certo :)" />
 
 </RelativeLayout>

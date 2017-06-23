@@ -48,5 +48,13 @@
     <dimen name="TamanhoLupaH">40dp</dimen>
     <dimen name="TamanhoLupaW">40dp</dimen>
 
+    <dimen name="buttonSizeH">100dp</dimen>
+    <dimen name="profileBarH">80dp</dimen>
+
+
+    <dimen name="profileContractorTextH">60dp</dimen>
+    <dimen name="profileContractorTextW">250dp</dimen>
+    <dimen name="profileContractorTextSize">30sp</dimen>
+
 
 </resources>

@@ -304,4 +304,18 @@
     <color name="BarraInferior">#212121</color>
     <color name="AzulPrincipal">#2984ff</color>
 
+    <color name="profileBarBackground">#3d3d3d</color>
+
+    <color name="lightText">#dedede</color>
+
+    <!--
+    Button colors - not used, kept for record
+
+    <color name="IconLightBlue">#1f4476</color>
+    <color name="IconDarkBlue">#2881fa</color>
+
+    <color name="ButtonLightGray">#3d3d3d</color>
+    <color name="ButtonDarkGray">#222222</color>
+    -->
+
 </resources>
