@@ -1,5 +1,7 @@
 package com.rogacheski.lbd.lbdmusic;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.app.ActivityManager;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -62,6 +64,9 @@ public class ContractorActivity extends baseActivity
     private boolean searchInitialized = false;
     private int nOptions = 3;
     private int images[] = {R.drawable.pesquisapornome, R.drawable.pesquisaporgenero, R.drawable.pesquisaporlocal};
+
+    /** Animation time*/
+    int animationTime = 200;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -231,15 +236,54 @@ public class ContractorActivity extends baseActivity
 
     private void openSearch(){
         searchIsOpen = true;
-        mainBodyRL.setVisibility(View.INVISIBLE);
+
+        searchRL.setAlpha(0f);
         searchRL.setVisibility(View.VISIBLE);
+
+        mainBodyRL.setAlpha(1f);
+        mainBodyRL.setVisibility(View.VISIBLE);
+
+        mainBodyRL.animate()
+                .alpha(0f)
+                .setDuration(animationTime)
+                .setListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        mainBodyRL.setVisibility(View.GONE);
+                    }
+                });
+
+        searchRL.animate()
+                .alpha(1f)
+                .setDuration(animationTime)
+                .setListener(null);
+
         checkObjects();
     }
 
     private void closeSearch(){
-        mainBodyRL.setVisibility(View.VISIBLE);
-        searchRL.setVisibility(View.INVISIBLE);
         searchIsOpen = false;
+
+        searchRL.setAlpha(1f);
+        searchRL.setVisibility(View.VISIBLE);
+
+        mainBodyRL.setAlpha(0f);
+        mainBodyRL.setVisibility(View.VISIBLE);
+
+        mainBodyRL.animate()
+                .alpha(1f)
+                .setDuration(animationTime)
+                .setListener(null);
+
+        searchRL.animate()
+                .alpha(0f)
+                .setDuration(animationTime)
+                .setListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        searchRL.setVisibility(View.GONE);
+                    }
+                });
     }
 
 

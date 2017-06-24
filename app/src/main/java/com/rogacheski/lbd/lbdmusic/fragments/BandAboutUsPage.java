@@ -56,14 +56,6 @@ public class BandAboutUsPage extends BaseFragment implements View.OnClickListene
         setDescText(banda.getsDescricaoBanda());
         setEndereco(banda.getAdress());
 
-        View iconLeft = view.findViewById(R.id.IconLeft);
-        View iconMiddle = view.findViewById(R.id.IconMiddle);
-        View iconRight = view.findViewById(R.id.IconRight);
-
-        iconLeft.setOnClickListener(this);
-        iconMiddle.setOnClickListener(this);
-        iconRight.setOnClickListener(this);
-
         return view;
     }
     private void setListaDeContatos(List<ContatoEntity> contatos){
@@ -77,26 +69,38 @@ public class BandAboutUsPage extends BaseFragment implements View.OnClickListene
                         switch (numeroDeIcones) {
                             case 0:
                                 icon = (ImageView) view.findViewById(R.id.IconLeft);
+                                icon.setOnClickListener(this);
                                 break;
                             case 1:
                                 icon = (ImageView) view.findViewById(R.id.IconMiddle);
+                                icon.setOnClickListener(this);
                                 break;
                             case 2:
                                 icon = (ImageView) view.findViewById(R.id.IconRight);
+                                icon.setOnClickListener(this);
                                 break;
                         }
-                        icon.setImageResource(getImage(tipo));
-                        icon.setAdjustViewBounds(true);
-                        listaIcones.add(contato);
-                        numeroDeIcones++;
+                        if(icon != null){
+                            try{
+                                icon.setImageResource(getImage(tipo));
+                                icon.setAdjustViewBounds(true);
+                                listaIcones.add(contato);
+                                numeroDeIcones++;
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                                icon.setVisibility(View.GONE);
+                                continue;
+                            }
+                        }
                     } else {
                         TextView contatosSemIcone = (TextView) view.findViewById(R.id.ContatosFinalConteudo);
                         contatosSemIcone.setText(contatosSemIcone.getText() + " " + contato.getDescription() + " " + contato.getsValue() + " /");
                     }
                 } catch (Exception e) {
-                    AlertDialog alertDialog = new AlertDialog.Builder(getContext()).create();
-                    alertDialog.setTitle("Alert");
-                    alertDialog.setMessage(e.getMessage());
+                    //AlertDialog alertDialog = new AlertDialog.Builder(getContext()).create();
+                    //alertDialog.setTitle("Alert");
+                    //alertDialog.setMessage(e.getMessage());
+                    /**
                     alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
@@ -104,6 +108,7 @@ public class BandAboutUsPage extends BaseFragment implements View.OnClickListene
                                 }
                             });
                     alertDialog.show();
+                     */
                 }
             }
         }

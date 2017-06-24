@@ -4,4 +4,6 @@
     <!-- Id da barra de pesquisa-->
     <item name="searchBar" type="id" />
 
+    <item name="visible" type="id"/>
+    <item name="masked" type="id"/>
 </resources>

@@ -51,15 +51,24 @@
         android:layout_alignParentStart="true"
         android:layout_below="@+id/profileBarSearchByName">
 
-        <EditText
-            android:id="@+id/searchByNameBar"
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/textInput_search_by_name"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/toolbarTextH"
-            android:textColor="@color/lightText"
-            android:hint="Procurar..."
+            android:layout_height="wrap_content"
             android:textColorHint="@color/lightText"
-            android:singleLine="true"
-            android:imeOptions="actionSearch" />
+            app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true">
+            <android.support.v7.widget.AppCompatEditText
+                android:id="@+id/input_search_by_name"
+                android:textColor="@color/lightText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:imeOptions="actionSearch"
+                android:maxLines="1"
+                android:hint="@string/searchByNameHint" />
+        </android.support.design.widget.TextInputLayout>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerViewSearchByname"
@@ -68,7 +77,7 @@
             android:paddingTop="@dimen/padding16"
             android:scrollbars="vertical"
             android:layout_alignParentStart="true"
-            android:layout_below="@+id/searchByNameBar" />
+            android:layout_below="@+id/textInput_search_by_name" />
 
     </RelativeLayout>
 

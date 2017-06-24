@@ -27,6 +27,11 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
     public SearchHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View inflatedView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.search_row, parent, false);
+        inflatedView.setAlpha(0f);
+        inflatedView.animate()
+                .alpha(1f)
+                .setDuration(200)
+                .setListener(null);
         return new SearchHolder(inflatedView);
 
     }
@@ -59,10 +64,10 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
 
         public void bindSearch(BandEntity itemSearch) {
             id = itemSearch.getIdUsuario();
-            //mItemImage.setBackgroundColor(R.color.black);
+            mItemImage.setBackgroundColor(R.color.Background);
             Picasso.with(mItemImage.getContext()).load(itemSearch.getdImagemBanda()).into(mItemImage);
             mItemImage.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            mItemImage.setImageAlpha(100);
+            mItemImage.setImageAlpha(150);
 
             mItemName.setText(itemSearch.getsNomeBanda());
             mItemGrade.setRating((float)itemSearch.getAverageRating());

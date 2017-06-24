@@ -29,6 +29,12 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.evalua
     public RecyclerAdapter.evaluateHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View inflatedView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.evaluate_row, parent, false);
+        inflatedView.setAlpha(0f);
+        inflatedView.animate()
+                .alpha(1f)
+                .setDuration(200)
+                .setListener(null);
+
         return new evaluateHolder(inflatedView);
 
     }

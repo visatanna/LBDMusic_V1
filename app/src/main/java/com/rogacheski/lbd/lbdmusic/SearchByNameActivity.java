@@ -50,6 +50,7 @@ import java.lang.ref.WeakReference;
 import java.util.Arrays;
 import java.util.List;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
 import cz.msebera.android.httpclient.Header;
 
@@ -57,6 +58,8 @@ import static android.R.id.input;
 
 public class SearchByNameActivity extends baseActivity
         implements NavigationView.OnNavigationItemSelectedListener , PicassoSingleton.PicassoCallbacksInterface {
+
+    @Bind(R.id.input_search_by_name) EditText searchBar;
 
     private TextView mUsernameEdit;
     private ImageView mUserPicture;
@@ -75,10 +78,6 @@ public class SearchByNameActivity extends baseActivity
     private RecyclerView mRecyclerView;
     private LinearLayoutManager mLinearLayoutManager;
     private SearchRecyclerAdapter mAdapter;
-
-    private EditText searchBar;
-
-
 
 
     @Override
@@ -122,8 +121,6 @@ public class SearchByNameActivity extends baseActivity
 
         //BandEntity banda = (BandEntity) Coisa;
 
-        searchBar = (EditText) findViewById(R.id.searchByNameBar);
-
         TextWatcher mTextEditorWatcher = new TextWatcher() {
             public void beforeTextChanged(CharSequence s, int start, int count, int after){
 
@@ -135,23 +132,11 @@ public class SearchByNameActivity extends baseActivity
 
             public void afterTextChanged(Editable s)
             {
-                atualizarLista(searchBar.getText().toString());
+                atualizarLista(searchBar.getText().toString().trim());
             }
         };
 
         searchBar.addTextChangedListener(mTextEditorWatcher);
-
-
-        /**
-        searchBar.addTextChangedListener();
-        searchBar.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                atualizarLista(searchBar.getText().toString());
-                return true;
-            }
-        });
-        */
     }
 
 
