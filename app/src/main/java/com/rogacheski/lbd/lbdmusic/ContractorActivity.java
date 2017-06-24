@@ -292,7 +292,7 @@ public class ContractorActivity extends baseActivity
                     @Override
                     public void onClick(View v){
                         chamarPesquisa(v);
-                    }
+                        }
                 };
 
                 if(i == 0){

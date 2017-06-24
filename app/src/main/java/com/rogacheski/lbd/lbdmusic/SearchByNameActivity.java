@@ -7,7 +7,12 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.PersistableBundle;
+import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -21,6 +26,8 @@ import android.view.MenuItem;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
+import com.rogacheski.lbd.lbdmusic.adapter.RecyclerAdapter;
+import com.rogacheski.lbd.lbdmusic.adapter.SearchRecyclerAdapter;
 import com.rogacheski.lbd.lbdmusic.base.baseActivity;
 import com.rogacheski.lbd.lbdmusic.entity.BandEntity;
 import com.rogacheski.lbd.lbdmusic.session.Session;
@@ -38,6 +45,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.lang.ref.WeakReference;
+import java.util.Arrays;
+import java.util.List;
 
 import butterknife.ButterKnife;
 import cz.msebera.android.httpclient.Header;
@@ -53,6 +62,20 @@ public class SearchByNameActivity extends baseActivity
 
     // Corpo principal da tela
     private RelativeLayout mainBodyRL;
+
+
+    /** Variaveis relacionadas ao RecyclerView*/
+
+    private View view;
+
+    private RecyclerView mRecyclerView;
+    private LinearLayoutManager mLinearLayoutManager;
+    private SearchRecyclerAdapter mAdapter;
+
+    private EditText searchBar;
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,6 +114,40 @@ public class SearchByNameActivity extends baseActivity
         ActivityManager.TaskDescription tDesk = new ActivityManager.TaskDescription(getString(R.string.app_name),bm,getResources().getColor(R.color.colorPrimaryDark));
         this.setTaskDescription(tDesk);
         getWindow().setBackgroundDrawableResource(R.color.windowColor);
+
+
+        //BandEntity banda = (BandEntity) Coisa;
+
+        searchBar = (EditText) findViewById(R.id.searchByNameBar);
+
+        TextWatcher mTextEditorWatcher = new TextWatcher() {
+            public void beforeTextChanged(CharSequence s, int start, int count, int after){
+
+            }
+
+            public void onTextChanged(CharSequence s, int start, int before, int count){
+
+            }
+
+            public void afterTextChanged(Editable s)
+            {
+                atualizarLista(searchBar.getText().toString());
+            }
+        };
+
+        searchBar.addTextChangedListener(mTextEditorWatcher);
+
+
+        /**
+        searchBar.addTextChangedListener();
+        searchBar.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                atualizarLista(searchBar.getText().toString());
+                return true;
+            }
+        });
+        */
     }
 
 
@@ -193,4 +250,101 @@ public class SearchByNameActivity extends baseActivity
                     .setProfilePictureAsync(contractorLogo, image , getDrawable(R.drawable.ic_account_circle_white));
         }
     }
+
+    private void updateCardView(List<BandEntity> resultados){
+
+        mRecyclerView = null;
+        mLinearLayoutManager = null;
+        mAdapter = null;
+
+        mRecyclerView = (RecyclerView) findViewById(R.id.recyclerViewSearchByname);
+        mLinearLayoutManager = new LinearLayoutManager(SearchByNameActivity.this);
+        mRecyclerView.setLayoutManager(mLinearLayoutManager);
+        mAdapter = new SearchRecyclerAdapter(resultados);
+        mRecyclerView.setAdapter(mAdapter);
+
+    }
+
+    private void atualizarLista(String input){
+        final String termoDePesquisa = input;
+
+        //ShowCustomDialog("Searching");
+        AsyncHttpClient searchRequest = new AsyncHttpClient();
+        searchRequest.get("http://www.lbd.bravioseguros.com.br/musicianrest/search/" + input, new JsonHttpResponseHandler() {
+            @Override
+            public void onStart() {
+
+            }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                // called when response HTTP status is "200 OK"
+                try {
+                    // Ler do conteúdo "data" da resposta
+                    JSONArray dataJson = (JSONArray) response.get("data");
+
+                    if(dataJson.length() == 0) {
+                        BandEntity resultados[] = new BandEntity[0];
+                        updateCardView(Arrays.asList(resultados));
+                        return;
+                        //DismissDialog();
+                        //WriteMessage("Não encontramos nenhum músico ou banda com o nome \"" + termoDePesquisa + "\"", "long");
+                    }
+
+                    int numberOfResults = dataJson.length();
+
+                    BandEntity resultados[] = new BandEntity[numberOfResults];
+                    //band resultados[] = new band [numberOfResults];
+
+                    // Para cada valor encontrado
+                    for(int i=0; i<numberOfResults; i++){
+                        resultados[i] = new BandEntity();
+                        //resultados[i] = new band();
+                        JSONObject atual = dataJson.getJSONObject(i);
+
+                        String idUsuarioString = atual.get("idUsuario").toString();
+                        if(!idUsuarioString.equals("") || idUsuarioString.equals("null")){
+                            resultados[i].setIdUsuario(Integer.parseInt(idUsuarioString));
+                        }
+                        String idAddressString = atual.get("idAddress").toString();
+                        if(!(idAddressString.equals("") || idAddressString.equals("null"))){
+                            resultados[i].setIdAddress(Integer.parseInt(idAddressString));
+                        }
+                        resultados[i].setsNomeBanda(atual.get("fantasyName").toString());
+                        resultados[i].setFname(atual.get("firstName").toString());
+                        resultados[i].setLname(atual.get("lastName").toString());
+                        resultados[i].setdImagemBanda(atual.get("profileImage").toString());
+                        resultados[i].setdImagemDescBanda(atual.get("backpicture").toString());
+                        //resultados[i].setAverageRating(atual.get("").);
+
+                    }
+                    //DismissDialog();
+
+                    updateCardView(Arrays.asList(resultados));
+
+                } catch (JSONException e) {
+                    //DismissDialog();
+                    e.printStackTrace();
+                    // DismissDialog();
+                    //TransitionLeft(LoginActivity.class);
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                DismissDialog();
+                //WriteMessage("Não encontramos nenhum músico ou banda com o nome \"" + termoDePesquisa + "\"", "long");
+                //TransitionLeft(MainActivity.class);
+            }
+
+            @Override
+            public void onFinish() {
+
+            }
+        });
+    }
+
+
+
+
 }
