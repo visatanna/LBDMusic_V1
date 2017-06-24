@@ -65,7 +65,11 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
 
         public void bindEvaluate(BandEntity eval) {
             id = eval.getIdUsuario();
+            //mItemImage.setBackgroundColor(R.color.black);
             Picasso.with(mItemImage.getContext()).load(eval.getdImagemBanda()).into(mItemImage);
+            mItemImage.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            mItemImage.setImageAlpha(100);
+
             mItemName.setText(eval.getsNomeBanda());
             mItemGrade.setRating((float)eval.getAverageRating());
 
