@@ -175,7 +175,9 @@ public class ProfileMusicianActivity extends baseActivity
         DisplayTags(banda.getTags());
         //setando a nota média na tela
         RatingBar nota= (RatingBar)findViewById(R.id.ratingStars);
-        nota.setRating((float)banda.getAverageRating());
+
+        float mediaRating = banda.getAverageRating() == 0.0 ? (float)banda.getAverageRating() : 0.01f;
+        nota.setRating(mediaRating);
 
         //cria gerenciador dos fragmentos (views do tab layout)
         ViewPager viewPager = (ViewPager) findViewById(R.id.Pager);
@@ -217,14 +219,22 @@ public class ProfileMusicianActivity extends baseActivity
         return listaTextosTag;
     }
     public void setNomeBanda(String nomeBanda){
-        TextView telaNomeBanda = (TextView)findViewById(R.id.tvTituloDaBanda);
-        telaNomeBanda.setText(nomeBanda);
+        TextView telaNomeBanda = (TextView) findViewById(R.id.tvTituloDaBanda);
+        if(nomeBanda == null){
+            telaNomeBanda.setText("Nomeie sua banda aqui!");
+        }else {
+            telaNomeBanda.setText(nomeBanda);
+        }
     }
     public void setBandaImage(BandEntity banda) {
         //seta imagem de fundo da banda
         PicassoSingleton picasso = PicassoSingleton.getInstance( new WeakReference<>(mContext), new WeakReference<PicassoSingleton.PicassoCallbacksInterface>(ProfileMusicianActivity.this));
         ImageView backgroundImageBanda = (ImageView) findViewById(R.id.imageViewBanda);
-        picasso.setPostPictureAsync(backgroundImageBanda , banda.getdImagemBanda() , getDrawable(R.drawable.logo));
+        if(banda.getdImagemBanda() == null){
+            backgroundImageBanda.setImageDrawable(getDrawable(R.drawable.band_4));
+        }else {
+            picasso.setPostPictureAsync(backgroundImageBanda, banda.getdImagemBanda(), getDrawable(R.drawable.logo));
+        }
         backgroundImageBanda.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
 

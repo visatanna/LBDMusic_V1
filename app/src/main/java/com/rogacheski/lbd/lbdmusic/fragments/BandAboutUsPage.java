@@ -121,26 +121,32 @@ public class BandAboutUsPage extends BaseFragment implements View.OnClickListene
        }
     }
     private void setImagemDescBanda(String img){
+        ImageView imagemDesc = (ImageView) view.findViewById(R.id.ImagemDesc);
         if(img != null) {
-            ImageView imagemDesc = (ImageView) view.findViewById(R.id.ImagemDesc);
             PicassoSingleton picasso = PicassoSingleton.getInstance(new WeakReference<>(getContext()), new WeakReference<PicassoSingleton.PicassoCallbacksInterface>(this));
 
             picasso.setPostPictureAsync(imagemDesc, img, getContext().getDrawable(R.drawable.logo));
             imagemDesc.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        }else{
+            imagemDesc.setImageDrawable(getContext().getDrawable(R.drawable.band_4));
         }
     }
     private void setDescText(String descText){
+        TextView descricao = (TextView) view.findViewById(R.id.descricaoBanda);
         if(descText != null) {
-            TextView descricao = (TextView) view.findViewById(R.id.descricaoBanda);
             descricao.setText(descText);
+        }else{
+            descricao.setText("Escreva uma descrição para sua banda aqui.");
         }
     }
     private void setEndereco(AdressEntity endereco){
+        TextView tvEndereco = (TextView) view.findViewById(R.id.EnderecoBandaConteudo);
         if(endereco != null){
-            TextView tvEndereco = (TextView) view.findViewById(R.id.EnderecoBandaConteudo);
             String cidade = endereco.getCity() == null ? "" : endereco.getCity();
             String estado = endereco.getState() == null ? "" : endereco.getState();
             tvEndereco.setText(" "+cidade.trim() + " - " + estado.trim());
+        }else{
+            tvEndereco.setText("Ajude-nos a encontrar melhores contratos para você! Cadastre seu endereço.");
         }
     }
 
