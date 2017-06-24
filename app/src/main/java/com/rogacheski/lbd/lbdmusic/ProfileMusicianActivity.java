@@ -79,14 +79,7 @@ public class ProfileMusicianActivity extends baseActivity
 
         if(!CheckUserLogado()) {
             TransitionRight(LoginActivity.class);
-        } else {
-            if(!session.gettype().equals("musician")) {
-                TransitionRightExtraId(MainActivity.class , "id", session.getid());
-            } else {
-                //TODO CHAMA MAIN DE NOVO
-            }
         }
-
 
         Bitmap bm = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher_round);
         ActivityManager.TaskDescription tDesk = new ActivityManager.TaskDescription(getString(R.string.app_name),bm,getResources().getColor(R.color.colorPrimaryDark));
@@ -102,15 +95,20 @@ public class ProfileMusicianActivity extends baseActivity
 
     @Override
     public void onBackPressed() {
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            Intent startMain = new Intent(Intent.ACTION_MAIN);
-            startMain.addCategory(Intent.CATEGORY_HOME);
-            startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(startMain);
-            //super.onBackPressed();
+            if(session.gettype().equals("musician")) {
+                Intent startMain = new Intent(Intent.ACTION_MAIN);
+                startMain.addCategory(Intent.CATEGORY_HOME);
+                startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(startMain);
+                //super.onBackPressed();
+            }else{
+                TransitionRightExtraId(MainActivity.class , "id", session.getid());
+            }
         }
     }
 

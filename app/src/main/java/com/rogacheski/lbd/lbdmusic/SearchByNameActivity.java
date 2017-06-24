@@ -30,6 +30,7 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 import com.rogacheski.lbd.lbdmusic.adapter.RecyclerAdapter;
 import com.rogacheski.lbd.lbdmusic.adapter.SearchRecyclerAdapter;
 import com.rogacheski.lbd.lbdmusic.base.baseActivity;
+import com.rogacheski.lbd.lbdmusic.controllers.RecyclerItemClickListener;
 import com.rogacheski.lbd.lbdmusic.entity.BandEntity;
 import com.rogacheski.lbd.lbdmusic.session.Session;
 import com.rogacheski.lbd.lbdmusic.model.user;
@@ -51,6 +52,8 @@ import java.util.List;
 
 import butterknife.ButterKnife;
 import cz.msebera.android.httpclient.Header;
+
+import static android.R.id.input;
 
 public class SearchByNameActivity extends baseActivity
         implements NavigationView.OnNavigationItemSelectedListener , PicassoSingleton.PicassoCallbacksInterface {
@@ -252,19 +255,29 @@ public class SearchByNameActivity extends baseActivity
         }
     }
 
-    private void updateCardView(List<BandEntity> resultados){
-
-        mRecyclerView = null;
-        mLinearLayoutManager = null;
-        mAdapter = null;
+    private void updateCardView(List<BandEntity> resultados) {
 
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerViewSearchByname);
         mLinearLayoutManager = new LinearLayoutManager(SearchByNameActivity.this);
         mRecyclerView.setLayoutManager(mLinearLayoutManager);
         mAdapter = new SearchRecyclerAdapter(resultados);
         mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getBaseContext(), mRecyclerView, new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position) {
+                        int idUsuario = mAdapter.getSearchResult().get(position).getIdUsuario();
+                        String idUser = Integer.toString(idUsuario);
+                        TransitionRightExtraId(ProfileMusicianActivity.class , "id" , idUser);
+                    }
 
+                    @Override
+                    public void onLongItemClick(View view, int position) {
+
+                    }
+                })
+        );
     }
+
 
     private void atualizarLista(String input){
         final String termoDePesquisa = input;

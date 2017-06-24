@@ -1,8 +1,6 @@
 package com.rogacheski.lbd.lbdmusic.adapter;
 
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,52 +8,48 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-import com.rogacheski.lbd.lbdmusic.ProfileMusicianActivity;
 import com.rogacheski.lbd.lbdmusic.R;
 import com.rogacheski.lbd.lbdmusic.entity.BandEntity;
-import com.rogacheski.lbd.lbdmusic.entity.ReviewsEntity;
 import com.squareup.picasso.Picasso;
 
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 
-public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAdapter.evaluateHolder> {
+public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAdapter.SearchHolder> {
 
-    private List<BandEntity> mEvaluates;
+    private List<BandEntity> searchResult;
 
-    public SearchRecyclerAdapter(List<BandEntity> evaluates) {
-        mEvaluates = evaluates;
+    public SearchRecyclerAdapter(List<BandEntity> searchResult) {
+        this.searchResult = searchResult;
     }
 
-
     @Override
-    public SearchRecyclerAdapter.evaluateHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public SearchHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View inflatedView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.evaluate_row_search, parent, false);
-        return new evaluateHolder(inflatedView);
+                .inflate(R.layout.search_row, parent, false);
+        return new SearchHolder(inflatedView);
 
     }
 
     @Override
-    public void onBindViewHolder(SearchRecyclerAdapter.evaluateHolder holder, int position) {
-        BandEntity itemEvaluate = mEvaluates.get(position);
-        holder.bindEvaluate(itemEvaluate);
+    public void onBindViewHolder(SearchHolder holder, int position) {
+        BandEntity itemEvaluate = searchResult.get(position);
+        holder.bindSearch(itemEvaluate);
     }
 
     @Override
     public int getItemCount() {
-        return mEvaluates.size();
+        return searchResult.size();
     }
 
-    public static class evaluateHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public static class SearchHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private ImageView mItemImage;
         private TextView mItemName;
         private RatingBar mItemGrade;
         private int id;
 
-        public evaluateHolder(View v) {
+        public SearchHolder(View v) {
             super(v);
             mItemImage = (ImageView) v.findViewById(R.id.backgroundSearch);
             mItemName = (TextView) v.findViewById(R.id.nameEvaluateSearch);
@@ -63,16 +57,15 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
             v.setOnClickListener(this);
         }
 
-        public void bindEvaluate(BandEntity eval) {
-            id = eval.getIdUsuario();
+        public void bindSearch(BandEntity itemSearch) {
+            id = itemSearch.getIdUsuario();
             //mItemImage.setBackgroundColor(R.color.black);
-            Picasso.with(mItemImage.getContext()).load(eval.getdImagemBanda()).into(mItemImage);
+            Picasso.with(mItemImage.getContext()).load(itemSearch.getdImagemBanda()).into(mItemImage);
             mItemImage.setScaleType(ImageView.ScaleType.CENTER_CROP);
             mItemImage.setImageAlpha(100);
 
-            mItemName.setText(eval.getsNomeBanda());
-            mItemGrade.setRating((float)eval.getAverageRating());
-
+            mItemName.setText(itemSearch.getsNomeBanda());
+            mItemGrade.setRating((float)itemSearch.getAverageRating());
         }
 
         //5
@@ -81,6 +74,14 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
 
         }
 
+    }
+
+    public List<BandEntity> getSearchResult() {
+        return searchResult;
+    }
+
+    public void setSearchResult(List<BandEntity> searchResult) {
+        this.searchResult = searchResult;
     }
 }
 
