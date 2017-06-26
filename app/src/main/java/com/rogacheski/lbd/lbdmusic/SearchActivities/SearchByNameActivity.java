@@ -1,21 +1,15 @@
-package com.rogacheski.lbd.lbdmusic;
+package com.rogacheski.lbd.lbdmusic.SearchActivities;
 
 import android.app.ActivityManager;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.os.PersistableBundle;
-import android.support.annotation.IdRes;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.KeyEvent;
-import android.view.MotionEvent;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -27,7 +21,10 @@ import android.view.MenuItem;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
-import com.rogacheski.lbd.lbdmusic.adapter.RecyclerAdapter;
+import com.rogacheski.lbd.lbdmusic.R;
+import com.rogacheski.lbd.lbdmusic.Views.LoginActivity;
+import com.rogacheski.lbd.lbdmusic.Views.ProfileContractorActivity;
+import com.rogacheski.lbd.lbdmusic.Views.ProfileMusicianActivity;
 import com.rogacheski.lbd.lbdmusic.adapter.SearchRecyclerAdapter;
 import com.rogacheski.lbd.lbdmusic.base.baseActivity;
 import com.rogacheski.lbd.lbdmusic.controllers.RecyclerItemClickListener;
@@ -36,7 +33,6 @@ import com.rogacheski.lbd.lbdmusic.session.Session;
 import com.rogacheski.lbd.lbdmusic.model.user;
 import com.rogacheski.lbd.lbdmusic.singleton.PicassoSingleton;
 
-import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -53,8 +49,6 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import cz.msebera.android.httpclient.Header;
-
-import static android.R.id.input;
 
 public class SearchByNameActivity extends baseActivity
         implements NavigationView.OnNavigationItemSelectedListener , PicassoSingleton.PicassoCallbacksInterface {
@@ -344,6 +338,15 @@ public class SearchByNameActivity extends baseActivity
     }
 
 
+    public static class SearchByNameActivity$$ViewBinder<T extends SearchByNameActivity> implements ButterKnife.ViewBinder<T> {
+      @Override public void bind(final ButterKnife.Finder finder, final T target, Object source) {
+        View view;
+        view = finder.findRequiredView(source, 2131558630, "field 'searchBar'");
+        target.searchBar = finder.castView(view, 2131558630, "field 'searchBar'");
+      }
 
-
+      @Override public void unbind(T target) {
+        target.searchBar = null;
+      }
+    }
 }

@@ -1,4 +1,4 @@
-package com.rogacheski.lbd.lbdmusic;
+package com.rogacheski.lbd.lbdmusic.Views;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -14,6 +14,8 @@ import android.widget.TextView;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
+import com.rogacheski.lbd.lbdmusic.MainActivity;
+import com.rogacheski.lbd.lbdmusic.R;
 import com.rogacheski.lbd.lbdmusic.base.ImagePicker;
 import com.rogacheski.lbd.lbdmusic.base.baseActivity;
 import com.rogacheski.lbd.lbdmusic.model.user;

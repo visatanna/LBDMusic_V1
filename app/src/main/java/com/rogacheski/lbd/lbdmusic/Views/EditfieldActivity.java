@@ -1,7 +1,6 @@
-package com.rogacheski.lbd.lbdmusic;
+package com.rogacheski.lbd.lbdmusic.Views;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBar;
 import android.text.InputType;
 import android.view.View;
@@ -10,6 +9,7 @@ import android.widget.EditText;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
+import com.rogacheski.lbd.lbdmusic.R;
 import com.rogacheski.lbd.lbdmusic.base.baseActivity;
 import com.rogacheski.lbd.lbdmusic.session.Session;
 

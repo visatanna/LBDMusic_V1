@@ -5,7 +5,7 @@ import android.util.Log;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
-import com.rogacheski.lbd.lbdmusic.ProfileMusicianActivity;
+import com.rogacheski.lbd.lbdmusic.Views.ProfileMusicianActivity;
 import com.rogacheski.lbd.lbdmusic.entity.AdressEntity;
 import com.rogacheski.lbd.lbdmusic.entity.BandEntity;
 import com.rogacheski.lbd.lbdmusic.entity.ConcertDayEntity;
@@ -183,13 +183,13 @@ public class ControllerBanda extends Observable {
     }
 
     private static void addTagsBanda(BandEntity banda, JSONObject genreJson) {
-        try{Iterator<String> iterGenero = genreJson.keys();
+        try{
+            Iterator<String> iterGenero = genreJson.keys();
             ArrayList<TagEntity> listaTags = new ArrayList<TagEntity>();
             while(iterGenero.hasNext()) {
                 String key = iterGenero.next();
-
-                    TagEntity tag = new TagEntity(genreJson.get(key).toString());
-                    listaTags.add(tag);
+                TagEntity tag = new TagEntity(genreJson.get(key).toString());
+                listaTags.add(tag);
             }
             banda.setTags(listaTags);
         } catch (JSONException e){

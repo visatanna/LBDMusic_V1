@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/colorPrimaryDark"
     android:fitsSystemWindows="true"
-    tools:context="com.rogacheski.lbd.lbdmusic.ResetActivity">
+    tools:context="com.rogacheski.lbd.lbdmusic.Views.ResetActivity">
 
     <LinearLayout
         android:orientation="vertical"

@@ -1,12 +1,9 @@
 package com.rogacheski.lbd.lbdmusic.fragments;
 
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,13 +13,11 @@ import android.widget.TextView;
 
 
 import com.rogacheski.lbd.lbdmusic.ImageNotRegisteredException;
-import com.rogacheski.lbd.lbdmusic.ProfileMusicianActivity;
 import com.rogacheski.lbd.lbdmusic.R;
 import com.rogacheski.lbd.lbdmusic.entity.AdressEntity;
 import com.rogacheski.lbd.lbdmusic.entity.BandEntity;
 import com.rogacheski.lbd.lbdmusic.entity.ContatoEntity;
 import com.rogacheski.lbd.lbdmusic.singleton.PicassoSingleton;
-import com.squareup.picasso.Picasso;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;

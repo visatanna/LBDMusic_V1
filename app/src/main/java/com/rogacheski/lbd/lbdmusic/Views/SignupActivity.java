@@ -1,10 +1,9 @@
-package com.rogacheski.lbd.lbdmusic;
+package com.rogacheski.lbd.lbdmusic.Views;
 
 import android.app.ActivityManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -15,6 +14,8 @@ import android.widget.Spinner;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
+import com.rogacheski.lbd.lbdmusic.MainActivity;
+import com.rogacheski.lbd.lbdmusic.R;
 import com.rogacheski.lbd.lbdmusic.base.baseActivity;
 import com.rogacheski.lbd.lbdmusic.session.Session;
 

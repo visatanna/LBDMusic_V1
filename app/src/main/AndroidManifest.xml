@@ -21,34 +21,34 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".LoginActivity"
+            android:name=".Views.LoginActivity"
             android:label="@string/loginActivity"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".ResetActivity"
+            android:name=".Views.ResetActivity"
             android:label="@string/resetActivity"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".SignupActivity"
+            android:name=".Views.SignupActivity"
             android:label="@string/signupActivity"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".ProfileContractorActivity"
+            android:name=".Views.ProfileContractorActivity"
             android:label="@string/profileContractorActivity"
             android:theme="@style/AppTheme.profile" />
         <activity
-            android:name=".EditfieldActivity"
+            android:name=".Views.EditfieldActivity"
             android:label="@string/profileContractorActivity"
             android:theme="@style/AppTheme.Editfield"
             android:windowSoftInputMode="stateVisible" />
         <activity
-            android:name=".ProfileMusicianActivity"
+            android:name=".Views.ProfileMusicianActivity"
             android:label="@string/title_activity_profile_musician"
             android:theme="@style/AppTheme.Transparent" />
-        <activity android:name=".ContractorActivity" />
-        <activity android:name=".SearchByNameActivity" />
-        <activity android:name=".SearchByGenreActivity" />
-        <activity android:name=".SearchByLocationActivity"></activity>
+        <activity android:name=".Views.ContractorActivity" />
+        <activity android:name="com.rogacheski.lbd.lbdmusic.SearchActivities.SearchByNameActivity" />
+        <activity android:name="com.rogacheski.lbd.lbdmusic.SearchActivities.SearchByGenreActivity" />
+        <activity android:name="com.rogacheski.lbd.lbdmusic.SearchActivities.SearchByLocationActivity"></activity>
     </application>
 
 </manifest>

@@ -1,4 +1,4 @@
-package com.rogacheski.lbd.lbdmusic;
+package com.rogacheski.lbd.lbdmusic.test;
 
 import org.junit.Test;
 

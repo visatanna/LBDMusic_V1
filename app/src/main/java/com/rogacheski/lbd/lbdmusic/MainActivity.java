@@ -4,12 +4,10 @@ import android.app.ActivityManager;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -21,19 +19,18 @@ import android.view.MenuItem;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
+import com.rogacheski.lbd.lbdmusic.Views.ContractorActivity;
+import com.rogacheski.lbd.lbdmusic.Views.LoginActivity;
+import com.rogacheski.lbd.lbdmusic.Views.ProfileContractorActivity;
+import com.rogacheski.lbd.lbdmusic.Views.ProfileMusicianActivity;
 import com.rogacheski.lbd.lbdmusic.base.baseActivity;
-import com.rogacheski.lbd.lbdmusic.entity.BandEntity;
 import com.rogacheski.lbd.lbdmusic.session.Session;
 import com.rogacheski.lbd.lbdmusic.model.user;
 import com.rogacheski.lbd.lbdmusic.singleton.PicassoSingleton;
 
-import android.view.inputmethod.EditorInfo;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
