@@ -9,12 +9,14 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.rogacheski.lbd.lbdmusic.R;
 import com.rogacheski.lbd.lbdmusic.adapter.HintAdapter;
+import com.rogacheski.lbd.lbdmusic.entity.SearchResultEntity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import cz.msebera.android.httpclient.Header;
 
@@ -51,7 +53,7 @@ public class ControllerLocations {
 
                 @Override
                 public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                    Log.e("ConexaoErro", "Metodo caiu onFailure , status code: " + statusCode, throwable);
+                    carregaPaises();
                 }
 
                 @Override
@@ -81,17 +83,17 @@ public class ControllerLocations {
 
     private void carregaSpinner(ArrayList<String> listaDeLocais, int tipoDica) {
          try {
-             listaDeLocais.add(0, " ");
+             listaDeLocais.add(0, context.getString(R.string.vazioSpinner));
              switch (tipoDica) {
                  case 0:
-                     listaDeLocais.add("País");
+                     listaDeLocais.add(context.getString(R.string.Pais));
                      break;
                  case 1:
-                     listaDeLocais.add("Estado");
+                     listaDeLocais.add(context.getString(R.string.Estado));
                      break;
 
                  case 2:
-                     listaDeLocais.add("Cidade");
+                     listaDeLocais.add(context.getString(R.string.Cidade));
                      break;
              }
              HintAdapter<String> spinnerAdapter = new HintAdapter<String>(context, R.layout.simple_spinner_layout, listaDeLocais);
@@ -103,7 +105,7 @@ public class ControllerLocations {
          }
     }
 
-    public void carregaEstados(String sPais) {
+    public void carregaEstados(final String sPais) {
         if(sPais.equals(" ") || sPais.equals("País")){
             carregaSpinner(new ArrayList<String>(),1);
             return;
@@ -123,7 +125,7 @@ public class ControllerLocations {
 
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                Log.e("ConexaoErro", "Metodo caiu onFailure , status code: " + statusCode, throwable);
+                carregaEstados(sPais);
             }
 
             @Override
@@ -132,7 +134,7 @@ public class ControllerLocations {
             }
         });
     }
-    public void carregaCidades(String sEstado) {
+    public void carregaCidades(final String sEstado) {
         AsyncHttpClient client = new AsyncHttpClient();
         if(sEstado.equals(" ") || sEstado.equals("Estado")){
             carregaSpinner(new ArrayList<String>() , 2);
@@ -152,7 +154,123 @@ public class ControllerLocations {
 
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                Log.e("ConexaoErro", "Metodo caiu onFailure , status code: " + statusCode, throwable);
+                carregaCidades(sEstado);
+            }
+
+            @Override
+            public void onFinish() {
+
+            }
+        });
+    }
+
+
+
+
+    public void buscarUsuarios(String pais, String estado , String cidade) {
+        if(estado.equals(context.getString(R.string.Estado)) || estado.equals(context.getString(R.string.vazioSpinner)) ){
+            buscarUsuariosPorPais(pais);
+        }
+        else if(cidade.equals(context.getString(R.string.Cidade)) || cidade.equals(context.getString(R.string.vazioSpinner))){
+            buscarUsuariosPorEstado(pais,estado);
+        }
+        else{
+            buscarUsuarioPorCidade(pais , estado , cidade);
+        }
+
+    }
+
+    private void buscarUsuariosPorPais(final String pais) {
+        AsyncHttpClient client = new AsyncHttpClient();
+        client.get("http://www.lbd.bravioseguros.com.br/musicianrest/state/" + pais.trim()  , new JsonHttpResponseHandler() {
+            @Override
+            public void onStart() {
+
+            }
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                 ArrayList<SearchResultEntity> listaCards = carregaCards(response);
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                buscarUsuariosPorPais(pais);
+            }
+
+            @Override
+            public void onFinish() {
+
+            }
+        });
+    }
+
+    private ArrayList<SearchResultEntity> carregaCards(JSONObject response) {
+        ArrayList<SearchResultEntity> resultSet = new ArrayList<SearchResultEntity>();
+        try {
+            JSONObject dataJson = (JSONObject) response.get("data");
+            String id = dataJson.get("idUsuario").toString();
+
+            if(!id.equals("false")) {
+                Iterator<String> iterResult = dataJson.keys();
+
+                while(iterResult.hasNext()) {
+                    String key = iterResult.next();
+                    JSONObject card = (JSONObject) dataJson.get(key);
+                    int idUser       =  Integer.parseInt(card.get("idUsuario").toString());
+                    String fantasyName  =  card.get("fantasyName").toString();
+                    String profileImage =  card.get("profileImage").toString();
+                    //TODO average
+                    SearchResultEntity cardEntity = new SearchResultEntity(idUser , fantasyName , profileImage , 0.0f);
+                    resultSet.add(cardEntity);
+                }
+            }
+        }catch(JSONException e ){
+            e.printStackTrace();
+        }
+        return resultSet;
+    }
+
+    private void buscarUsuariosPorEstado(final String pais,final String estado) {
+        AsyncHttpClient client = new AsyncHttpClient();
+        client.get("http://www.lbd.bravioseguros.com.br/musicianrest/state/" + pais.trim() + "/" + estado.trim()  , new JsonHttpResponseHandler() {
+            @Override
+            public void onStart() {
+
+            }
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                ArrayList<SearchResultEntity> listaCards = carregaCards(response);
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                buscarUsuariosPorEstado(pais , estado);
+            }
+
+            @Override
+            public void onFinish() {
+
+            }
+        });
+    }
+
+
+
+    private void buscarUsuarioPorCidade(final String pais ,final String estado ,final String cidade) {
+        AsyncHttpClient client = new AsyncHttpClient();
+        client.get("http://www.lbd.bravioseguros.com.br/musicianrest/state/" + pais.trim() + "/" + estado.trim() + "/" + cidade.trim() , new JsonHttpResponseHandler() {
+            @Override
+            public void onStart() {
+
+            }
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                ArrayList<SearchResultEntity> listaCards = carregaCards(response);
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                buscarUsuarioPorCidade(pais , estado , cidade);
             }
 
             @Override

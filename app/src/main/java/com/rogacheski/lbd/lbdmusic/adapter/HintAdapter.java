@@ -3,6 +3,7 @@ package com.rogacheski.lbd.lbdmusic.adapter;
 import android.content.Context;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -28,7 +29,7 @@ public class HintAdapter<T> extends ArrayAdapter {
 
         View v = super.getView(position, convertView, parent);
         if (position == getCount()) {
-            ((TextView)v).setTextColor(getContext().getColor(R.color.colorGrey));
+            ((TextView)v).setTextColor(ContextCompat.getColor(getContext(), R.color.colorGrey));
         }
 
         return v;

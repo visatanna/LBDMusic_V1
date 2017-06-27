@@ -62,5 +62,11 @@
     <string name="Placeholder">Placeholder</string>
 
     <string name="searchByNameHint">Procurar</string>
+    <string name="Ok">Ok</string>
 
+    //Spinners
+    <string name="vazioSpinner"> </string>
+    <string name="Pais">País</string>
+    <string name="Estado">Estado</string>
+    <string name="Cidade">Cidade</string>
 </resources>
