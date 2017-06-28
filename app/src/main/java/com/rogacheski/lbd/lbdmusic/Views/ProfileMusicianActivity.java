@@ -163,29 +163,32 @@ public class ProfileMusicianActivity extends baseActivity
 
         int idBanda = Integer.parseInt(getIntent().getExtras().getString("id"));
         int idSession = Integer.parseInt(this.session.getid());
+        try {
+            isBandaDaTela = idBanda == idSession ? true : false ;
 
-        isBandaDaTela = idBanda == idSession ? true : false;
+            //seta as tags particulares da banda x
 
-        //seta as tags particulares da banda x
+            setBandaImage(banda.getdImagemBanda());
+            setNomeBanda(banda.getsNomeBanda());
+            DisplayTags(banda.getTags());
+            //setando a nota média na tela
+            RatingBar nota = (RatingBar) findViewById(R.id.ratingStars);
 
-        setBandaImage(banda);
-        setNomeBanda(banda.getsNomeBanda());
-        DisplayTags(banda.getTags());
-        //setando a nota média na tela
-        RatingBar nota= (RatingBar)findViewById(R.id.ratingStars);
+            //nota.setRating((float)banda.getAverageRating());
+            float mediaRating = banda.getAverageRating() == 0.0 ? (float) banda.getAverageRating() : 0.01f;
+            nota.setRating(mediaRating);
 
-        //nota.setRating((float)banda.getAverageRating());
-        float mediaRating = banda.getAverageRating() == 0.0 ? (float)banda.getAverageRating() : 0.01f;
-        nota.setRating(mediaRating);
+            //cria gerenciador dos fragmentos (views do tab layout)
+            ViewPager viewPager = (ViewPager) findViewById(R.id.Pager);
+            PagerAdapter pagerAdapter = new TabAdapterBandaView(getSupportFragmentManager(), this, banda, idSession);
+            viewPager.setAdapter(pagerAdapter);
 
-        //cria gerenciador dos fragmentos (views do tab layout)
-        ViewPager viewPager = (ViewPager) findViewById(R.id.Pager);
-        PagerAdapter pagerAdapter = new TabAdapterBandaView(getSupportFragmentManager(), this, banda, idSession);
-        viewPager.setAdapter(pagerAdapter);
+            TabLayout barraViewsBanda = (TabLayout) findViewById(R.id.LayoutTabBandaHomePage);
 
-        TabLayout barraViewsBanda = (TabLayout)findViewById(R.id.LayoutTabBandaHomePage);
-
-        barraViewsBanda.setupWithViewPager(viewPager);
+            barraViewsBanda.setupWithViewPager(viewPager);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
     }
 
     private List<TextView> DisplayTags(List<TagEntity> listaTags) {
@@ -195,7 +198,6 @@ public class ProfileMusicianActivity extends baseActivity
         listaTextosTag = new ArrayList<TextView>();
 
         //Posicionando as tags
-
         int iterador =  listaTags.size();
         if(listaTags.size() > 4){
             iterador = 4;
@@ -222,41 +224,36 @@ public class ProfileMusicianActivity extends baseActivity
         //telaNomeBanda.setText(nomeBanda);
         TextView telaNomeBanda = (TextView) findViewById(R.id.tvTituloDaBanda);
         if(nomeBanda == null){
-            telaNomeBanda.setText("Nomeie sua banda aqui!");
+            telaNomeBanda.setText("Nomeie sua banda");
+            telaNomeBanda.setTextSize(28.0f);
         } else {
             telaNomeBanda.setText(nomeBanda);
         }
     }
-    public void setBandaImage(BandEntity banda) {
-        //seta imagem de fundo da banda
-        PicassoSingleton picasso = PicassoSingleton.getInstance( new WeakReference<>(mContext), new WeakReference<PicassoSingleton.PicassoCallbacksInterface>(ProfileMusicianActivity.this));
+    public void setBandaImage(String imagemDaBandaTop ) {
         ImageView backgroundImageBanda = (ImageView) findViewById(R.id.imageViewBanda);
+        if(imagemDaBandaTop != null) {
+            //seta imagem de fundo da banda
+            PicassoSingleton picasso = PicassoSingleton.getInstance(new WeakReference<>(mContext), new WeakReference<PicassoSingleton.PicassoCallbacksInterface>(ProfileMusicianActivity.this));
 
-        //picasso.setPostPictureAsync(backgroundImageBanda , banda.getdImagemBanda() , getDrawable(R.drawable.logo));
+            //picasso.setPostPictureAsync(backgroundImageBanda , banda.getdImagemBanda() , getDrawable(R.drawable.logo));
 
-        if(banda.getdImagemBanda() == null){
+            if (banda.getdImagemBanda() == null) {
+                backgroundImageBanda.setImageDrawable(getDrawable(R.drawable.band_4));
+            } else {
+                picasso.setPostPictureAsync(backgroundImageBanda, imagemDaBandaTop, getDrawable(R.drawable.logo));
+            }
+
+            // 0 - Transparente
+            // 255 - Opaco
+            backgroundImageBanda.setImageAlpha(100);
+
+            // Filtro azul maravilhoso <3
+            //backgroundImageBanda.setColorFilter(R.color.green_500);
+        }else{
             backgroundImageBanda.setImageDrawable(getDrawable(R.drawable.band_4));
-        }else {
-            picasso.setPostPictureAsync(backgroundImageBanda, banda.getdImagemBanda(), getDrawable(R.drawable.logo));
         }
 
         backgroundImageBanda.setScaleType(ImageView.ScaleType.CENTER_CROP);
-
-
-        //ColorMatrix matrix = new ColorMatrix();
-        // 0 = gray-scale
-        // 1 = original
-        //float amount = 0.5f;
-        //matrix.setSaturation(amount);
-        //ColorMatrixColorFilter filter = new ColorMatrixColorFilter(matrix);
-        //backgroundImageBanda.setColorFilter(filter);
-
-
-        // 0 - Transparente
-        // 255 - Opaco
-        backgroundImageBanda.setImageAlpha(100);
-
-        // Filtro azul maravilhoso <3
-        //backgroundImageBanda.setColorFilter(R.color.green_500);
     }
 }

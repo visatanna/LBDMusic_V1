@@ -42,6 +42,7 @@ public class BandAboutUsPage extends BaseFragment implements View.OnClickListene
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
         view = inflater.inflate(R.layout.fragment_about_us,container , false );
         BandEntity banda = (BandEntity)getArgument();
 
@@ -55,7 +56,8 @@ public class BandAboutUsPage extends BaseFragment implements View.OnClickListene
     }
     private void setListaDeContatos(List<ContatoEntity> contatos){
         int numeroDeIcones = 0;
-        if(contatos != null) {
+        TextView contatosSemIcone = (TextView) view.findViewById(R.id.ContatosFinalConteudo);
+        if((contatos != null)&&(contatos.size() != 0 )){
             for (ContatoEntity contato : contatos) {
                 try {
                     String tipo = contato.getDescription();
@@ -88,24 +90,14 @@ public class BandAboutUsPage extends BaseFragment implements View.OnClickListene
                             }
                         }
                     } else {
-                        TextView contatosSemIcone = (TextView) view.findViewById(R.id.ContatosFinalConteudo);
                         contatosSemIcone.setText(contatosSemIcone.getText() + " " + contato.getDescription() + " " + contato.getsValue() + " /");
                     }
                 } catch (Exception e) {
-                    //AlertDialog alertDialog = new AlertDialog.Builder(getContext()).create();
-                    //alertDialog.setTitle("Alert");
-                    //alertDialog.setMessage(e.getMessage());
-                    /**
-                    alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
-                                }
-                            });
-                    alertDialog.show();
-                     */
+                   e.printStackTrace();
                 }
             }
+        }else{
+            contatosSemIcone.setText("Coloque seus contatos aqui!");
         }
     }
     private int getImage(String tipo) throws Exception {
@@ -126,10 +118,10 @@ public class BandAboutUsPage extends BaseFragment implements View.OnClickListene
             PicassoSingleton picasso = PicassoSingleton.getInstance(new WeakReference<>(getContext()), new WeakReference<PicassoSingleton.PicassoCallbacksInterface>(this));
 
             picasso.setPostPictureAsync(imagemDesc, img, getContext().getDrawable(R.drawable.logo));
-            imagemDesc.setScaleType(ImageView.ScaleType.CENTER_CROP);
         }else{
-            imagemDesc.setImageDrawable(getContext().getDrawable(R.drawable.band_4));
+            imagemDesc.setImageDrawable(getContext().getDrawable(R.drawable.band_2));
         }
+        imagemDesc.setScaleType(ImageView.ScaleType.CENTER_CROP);
     }
     private void setDescText(String descText){
         TextView descricao = (TextView) view.findViewById(R.id.descricaoBanda);

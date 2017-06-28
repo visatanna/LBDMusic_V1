@@ -33,29 +33,34 @@ public class TabAdapterBandaView  extends FragmentPagerAdapter{
     @Override
     public Fragment getItem(int position) {
         BaseFragment fragment = new BaseFragment();
-        switch (position) {
-            case 0:
-                BandAboutUsPage fragmentoAboutUs = new BandAboutUsPage();
-                fragmentoAboutUs.setArgument(banda);
-                fragmentoAboutUs.setIdUser(idUser);
-                fragment =  fragmentoAboutUs;
-                break;
-            case 1:
-                BandCalendarPage fragmentoCalendar = new BandCalendarPage();
-                fragmentoCalendar.setArgument(banda);
-                fragmentoCalendar.setIdUser(idUser);
-                fragment =  fragmentoCalendar;
-                break;
-            case 2:
-                BandReviewsPage fragmentoReviews = new BandReviewsPage();
-                fragmentoReviews.setArgument(banda);
-                fragmentoReviews.setIdUser(idUser);
-                fragment =  fragmentoReviews;
-                break;
+        try {
+            switch (position) {
+                case 0:
+                    BandAboutUsPage fragmentoAboutUs = new BandAboutUsPage();
+                    fragmentoAboutUs.setArgument(banda);
+                    fragmentoAboutUs.setIdUser(idUser);
+                    fragment = fragmentoAboutUs;
+                    break;
+                case 1:
+                    BandCalendarPage fragmentoCalendar = new BandCalendarPage();
+                    fragmentoCalendar.setArgument(banda);
+                    fragmentoCalendar.setIdUser(idUser);
+                    fragment = fragmentoCalendar;
+                    break;
+                case 2:
+                    BandReviewsPage fragmentoReviews = new BandReviewsPage();
+                    fragmentoReviews.setArgument(banda);
+                    fragmentoReviews.setIdUser(idUser);
+                    fragment = fragmentoReviews;
+                    break;
 
+            }
+        }catch(Exception e){
+            e.printStackTrace();
         }
         return fragment;
     }
+
     @Override
     public int getCount() {
         return 3;

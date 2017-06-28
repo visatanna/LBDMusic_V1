@@ -1,6 +1,7 @@
 package com.rogacheski.lbd.lbdmusic.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 public class BandEntity implements Serializable{
@@ -78,7 +79,7 @@ public class BandEntity implements Serializable{
     }
 
     /** tags - Tags de gênero da banda*/
-    private List<TagEntity> tags;
+    private List<TagEntity> tags = new ArrayList<TagEntity>();
     public List<TagEntity> getTags() {
         return tags;
     }
@@ -87,7 +88,7 @@ public class BandEntity implements Serializable{
     }
 
     /** listaContatos - Lista de contatos com a banda (Facebook, Youtube, etc.)*/
-    private List<ContatoEntity> listaContatos;
+    private List<ContatoEntity> listaContatos = new ArrayList<ContatoEntity>();
     public List<ContatoEntity> getListaContatos() {
         return listaContatos;
     }
@@ -105,7 +106,7 @@ public class BandEntity implements Serializable{
     }
 
     /** listaReviews - Lista de reviews da banda*/
-    private List<ReviewsEntity> listaReviews;
+    private List<ReviewsEntity> listaReviews = new ArrayList<ReviewsEntity>();
     public List<ReviewsEntity> getListaReviews() {
         return listaReviews;
     }
