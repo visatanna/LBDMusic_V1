@@ -62,11 +62,11 @@ public class ControllerBanda extends Observable {
                     BandEntity bandaR = new BandEntity();
                     JSONObject dataJson= (JSONObject) response.get("data");
                     String id = dataJson.get("idUsuario").toString();
-                    JSONObject genreJson=  response.get("genres") == null ? (JSONObject) response.get("genres") : null;
-                    JSONObject evaluatesJson=  response.get("evaluates") == null ? (JSONObject) response.get("evaluates") : null;
-                    JSONObject concertDaysJson = response.get("concertdays") == null ? (JSONObject) response.get("concertdays") : null;
-                    JSONObject contactsJson = response.get("contacts") == null ? (JSONObject) response.get("contacts") : null;
-                    JSONObject adressJson = response.get("address") == null ? (JSONObject) response.get("address") : null;
+                    JSONObject genreJson=  response.get("genres") != null ? (JSONObject) response.get("genres") : null;
+                    JSONObject evaluatesJson=  response.get("evaluates") !=null ? (JSONObject) response.get("evaluates") : null;
+                    JSONObject concertDaysJson = response.get("concertdays") ! null ? (JSONObject) response.get("concertdays") : null;
+                    JSONObject contactsJson = response.get("contacts") != null ? (JSONObject) response.get("contacts") : null;
+                    JSONObject adressJson = response.get("address") != null ? (JSONObject) response.get("address") : null;
                     if(!id.equals("false")) {
                         bandaR.setIdUsuario(Integer.parseInt(id));
                         addInformacoesBasicasBanda(bandaR , dataJson);
